@@ -13,8 +13,6 @@
 
 SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
-String cmd = "";
-
 void setup() {
     Serial.begin(115200);
     command_serial.begin(9600);
@@ -22,7 +20,7 @@ void setup() {
 
 void loop() {
     if (Serial.available()) {
-        cmd = Serial.readString();
+        String cmd = Serial.readString();
         cmd.trim();
         if (cmd.length()) {
             Serial.print(F("User command \""));
