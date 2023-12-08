@@ -2,7 +2,11 @@ import serial
 import subprocess
 
 # Replace '/dev/cu.usbserial-A4016Z9Q' with the actual full path to the port your
-# Arduino is connected to to transmit the response to.
+# Arduino is connected to to transmit the response to. For example Windows users would
+# use something like this:
+#
+# command_port = 'COM4'
+#
 
 command_port = '/dev/cu.usbserial-A4016Z9Q'
 
