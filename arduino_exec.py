@@ -6,11 +6,13 @@ import subprocess
 #
 # For example linux and Mac users would
 # use something like this:
-#
 # command_port = '/dev/cu.usbserial-A4016Z9Q'
 #
+# Windows users would use something like this:
+# cmd_serial = serial.Serial(command_port, 9600, timeout=1)
+#
 
-command_port = 'COM4'
+command_port = '/dev/cu.usbserial-A4016Z9Q'
 
 cmd_serial = serial.Serial(command_port, 9600, timeout=1)
 

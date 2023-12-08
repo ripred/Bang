@@ -13,16 +13,67 @@
 #define  TX_PIN     8
 #define  ALERT_PIN  LED_BUILTIN
 
-// 10GB minimum few disk space
+// Use 10GB as the minimum few disk space.
+// Change as needed.
 double constexpr MinFreeSpace = 10UL * 1024UL * 1024UL * 1024UL;
 
 // the last free space reported
 double free_space = 100UL * 1024UL * 1024UL * 1024UL;
 
-// low space status
+// flag containing the "low space" status
 uint8_t  space_is_low = false;
 
+// Software Serial object to send the
+// commands to the Python Agent
 SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
+
+// function prototypes
+void flash_led();
+void flash_if_low();
+void longPause(uint32_t minutes);
+
+void setup() {
+    Serial.begin(115200);
+    command_serial.begin(9600);
+    pinMode(ALERT_PIN, OUTPUT);
+}
+
+void loop() {
+    char const command[] PROGMEM = "df -P / | awk 'NR==2 {print $4}' | tr -d 'G'";
+    command_serial.println(command);
+    delay(1000);
+    if (command_serial.available() > 5) {
+        // get number of free 512-byte blocks
+        String response = command_serial.readString();
+        response.trim();
+        
+        char blk_str[16] = "";
+        double const free_blocks = atol(response.c_str());
+        dtostrf(free_blocks, 5,2, blk_str);
+
+        char bytes_str[16] = "";
+        free_space = free_blocks * 512.0;
+        dtostrf(free_space, 5,2, bytes_str);
+
+        char gb_str[16] = "";
+        double free_gb = free_space / (1024.0 * 1024.0 * 1024.0);
+        dtostrf(free_gb, 5,2, gb_str);
+
+        char buff[128] = "";
+        sprintf(buff, "Free Disk Space %s blocks, %s bytes (%s GB)",
+            blk_str, bytes_str, gb_str);
+        Serial.println(buff);
+
+        space_is_low = free_space < MinFreeSpace;
+    }
+
+    uint32_t constexpr pause_minutes = 10;
+    longPause(pause_minutes) ;
+}
+
+// ======================================================================
+// support functions
+// ======================================================================
 
 void flash_led() {
     static uint32_t last_toggle = 0;
@@ -48,41 +99,4 @@ void longPause(uint32_t minutes) {
     while (millis() - start < pause_minutes_ms) {
         flash_if_low();
     }
-}
-
-void setup() {
-    Serial.begin(115200);
-    command_serial.begin(9600);
-    pinMode(ALERT_PIN, OUTPUT);
-}
-
-void loop() {
-    command_serial.println(F("df -P / | awk 'NR==2 {print $4}' | tr -d 'G'"));
-    delay(1000);
-    if (command_serial.available() > 5) {
-        // get number of free 512-byte blocks
-        String response = command_serial.readString();
-        response.trim();
-        
-        char blk_str[16] = "";
-        double const free_blocks = atol(response.c_str());
-        dtostrf(free_blocks, 5,2, blk_str);
-
-        char bytes_str[16] = "";
-        free_space = free_blocks * 512.0;
-        dtostrf(free_space, 5,2, bytes_str);
-
-        char gb_str[16] = "";
-        double free_gb = free_space / (1024.0 * 1024.0 * 1024.0);
-        dtostrf(free_gb, 5,2, gb_str);
-
-        char buff[128] = "";
-        sprintf(buff, "Free Disk Space %s blocks, %s bytes (%s GB)", blk_str, bytes_str, gb_str);
-        Serial.println(buff);
-
-        space_is_low = free_space < MinFreeSpace;
-    }
-
-    uint32_t const pause_minutes = 10;
-    longPause(pause_minutes) ;
 }
