@@ -1,25 +1,14 @@
 import serial
 import subprocess
 
-# Replace 'COM4' with the actual full path to the port your
-# Arduino is connected to to transmit the response to.
-#
-# For example linux and Mac users would
-# use something like this:
-# command_port = '/dev/cu.usbserial-A4016Z9Q'
-#
-# Windows users would use something like this:
-# cmd_serial = serial.Serial(command_port, 9600, timeout=1)
-#
-
 command_port = '/dev/cu.usbserial-A4016Z9Q'
 
 cmd_serial = serial.Serial(command_port, 9600, timeout=1)
 
 if cmd_serial:
-    print(f"succesfully opened serial port {command_port}")
+    print(f"Succesfully opened serial port {command_port}")
 else:
-    print(f"could not open the serial port {command_port}")
+    print(f"Could not open the serial port {command_port}")
     exit(0)
 
 def execute_command(command):
@@ -34,7 +23,7 @@ def execute_command(command):
 
 prompted = False
 while True:
-    if (not prompted):
+    if not prompted:
         print("Waiting for a command from the Arduino...")
     prompted = True
 
@@ -50,11 +39,11 @@ while True:
         # Execute the command
         result_output = execute_command(arduino_command)
 
-        # Print the output for debugging (optional)
-        print(f"Command Output:\n{result_output}")
-
-        # send the captured output to the Arduino
-        if cmd_serial:
-            cmd_serial.write(result_output.encode('utf-8') + b'\n')
+        # Split the result into lines and send each line individually
+        for line in result_output.split('\n'):
+            print(line + '\n')
+            if cmd_serial:
+                cmd_serial.write(line.encode('utf-8') + b'\n')
 
         prompted = False
+
