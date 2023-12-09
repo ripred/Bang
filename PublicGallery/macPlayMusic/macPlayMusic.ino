@@ -16,19 +16,34 @@
 // commands to the Python Agent
 SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
+void create_applescript_file(char const *song) {
+    char buff[512] = "";
+    sprintf(buff, "echo '    play track \"%s\"' >> play_and_stop.scpt", song);
+
+    command_serial.println(F("echo 'tell application \"Music\"' > play_and_stop.scpt"));
+    command_serial.println(buff);
+    command_serial.println(F("echo \"    repeat until player state is stopped\" >> play_and_stop.scpt"));
+    command_serial.println(F("echo \"        delay 1\" >> play_and_stop.scpt"));
+    command_serial.println(F("echo \"    end repeat\" >> play_and_stop.scpt"));
+    command_serial.println(F("echo \"    stop\" >> play_and_stop.scpt"));
+    command_serial.println(F("echo \"end tell\" >> play_and_stop.scpt"));
+}
+
+void play_song(char const *song) {
+    create_applescript_file(song);
+    
+    // Play the song!
+    command_serial.println("osascript play_and_stop.scpt");
+}
+
+
 void setup() {
     Serial.begin(115200);
     command_serial.begin(9600);
 
-    char command[128] = "";
-
     // name the song to play (Moby's "Porcelain" in this case)
     char const *song = "Porcelain";
-    char const *fmt = "osascript -e 'tell application \"Music\" to play track \"Porcelain\"'";
-    snprintf(command, 128, fmt, song);
-
-    // Play the song!
-    command_serial.println(command);
+    play_song(song);
 }
 
 void loop() { }
