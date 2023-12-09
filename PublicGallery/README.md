@@ -5,3 +5,4 @@ arduinoCLI sketches added so far:
  * macPlayMusic.ino
  * macFreeDiskSpace.ino
  * macSpeechSynthesizer.ino
+ * openWeatherMap.ino
