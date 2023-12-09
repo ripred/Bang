@@ -30,10 +30,17 @@ void create_applescript_file(char const *song) {
 }
 
 void play_song(char const *song) {
+    // create an applescript file to play the song
     create_applescript_file(song);
     
     // Play the song!
     command_serial.println("osascript play_and_stop.scpt");
+
+    // quit the Music.app if the user stopped it themselves
+    command_serial.println("osascript -e 'tell application \"Music\" to quit'");
+
+    // remove the applescript file
+    command_serial.println("rm play_and_stop.scpt");
 }
 
 
