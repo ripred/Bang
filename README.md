@@ -11,7 +11,7 @@ So far I have written and added the following sketches to the PublicGallery fold
 -   **datetime.ino** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
 -   **isMacAsleep.ino** sketch to retrieve whether the host machine is asleep or not! Special thanks to reddit user u/NoBodyDroid for the idea!
 
-The following are some of theideas I have had that this technique can be used for:
+The following are some of the ideas I have had that this technique can be used for:
 
 * Invoke 'curl' commands to send internet requests and optionally retrieve the response back to your Arduino. Many of the following ideas are just expanded ideas of this basic ability.
 * Play and stop music or movies on your host machine
