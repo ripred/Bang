@@ -18,13 +18,18 @@ SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 void setup() {
     Serial.begin(115200);
     command_serial.begin(9600);
+}
 
+void loop() {
     command_serial.println(F("pmset -g ps | grep -q 'Sleeping' && echo 'Sleeping' || echo 'Not sleeping'"));
 
     String response = command_serial.readString();
     response.trim();
 
-    Serial.println(response);
-}
+    bool const asleep = (memcmp(response.c_str(), "Not", 3) == 0) ? 0 : 1;
+    digitalWrite(LED_BUILTIN, asleep);
 
-void loop() { }
+//    Serial.println(response);
+
+    delay(1000);
+}
