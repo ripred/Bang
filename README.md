@@ -10,6 +10,7 @@ So far I have written and added the following sketches to the PublicGallery fold
 -   **openWeatherMap.ino** sketch to retrieve the city name, latitude, longitude, current conditions, temperature, feels like temperature, humidity, wind speed, and wind direction for any zip code.
 -   **datetime.ino** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
 -   **isMacAsleep.ino** sketch to retrieve whether the host machine is asleep or not! Special thanks to reddit user u/NoBodyDroid for the idea!
+-   **power.ino** sketch for Windows, Mac, and Linux to tell the host macine to go to sleep, reboot, or shutdown
 
 The following are some of the ideas I have had that this technique can be used for:
 
