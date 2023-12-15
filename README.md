@@ -20,7 +20,7 @@ In order to allow your Arduino to execute all programs that are requested, as we
 
 #### For Windows Users:
 ```
-rem Replace 'COM3' with the COM port your Arduino is connected to
+C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
 C:\> runas /user:Administrator "cmd /c python -m arduino_exec.py COM3 2>&1"
 Waiting for a command from the Arduino...
 ```
@@ -28,13 +28,13 @@ Waiting for a command from the Arduino...
 Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the public gallery require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
 ```
-rem Replace 'COM3' with the COM port your Arduino is connected to
+C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
 C:\> cmd /c python -m arduino_exec.py COM3 2>&1
 ```
 
 #### For Mac and Linux Users:
 ```
-# Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
+$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
 $ sudo 2>&1 python -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
@@ -42,7 +42,7 @@ Waiting for a command from the Arduino...
 Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
 ```
-# Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
+$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
 $ python 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
