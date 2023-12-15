@@ -19,7 +19,7 @@ So far I have written and added the following sketches to the **[PublicGallery](
 
 In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line:
 
-```bash
+```
 $ sudo 2>&1 python -m arduino_exec.py
 $ Waiting for a command from the Arduino...
 ```
