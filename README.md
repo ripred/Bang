@@ -30,6 +30,7 @@ Note that if you don't plan on executing any commands that require the extra adm
 ```
 C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
 C:\> cmd /c python -m arduino_exec.py COM3 2>&1
+Waiting for a command from the Arduino...
 ```
 
 #### For Mac and Linux Users:
