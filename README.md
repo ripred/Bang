@@ -24,7 +24,7 @@ $ sudo 2>&1 python -m arduino_exec.py
 Waiting for a command from the Arduino...
 ```
 
-Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the sudo prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep.
+Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep.
 
 The `2>&1` term will ensure that all output is captured and returned to your Arduino including any output directed to `stderr` in addition to the normal output sent to `stdout`.
 
