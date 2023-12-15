@@ -6,7 +6,6 @@
  */
 
 #include <SoftwareSerial.h>
-#include <ArduinoJson.h>
 
 #define  RX_PIN     7
 #define  TX_PIN     8
