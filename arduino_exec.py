@@ -1,7 +1,15 @@
 import serial
 import subprocess
 
-command_port = '/dev/cu.usbserial-A4016Z9Q'
+# Check if there are command-line arguments
+if len(sys.argv) > 1:
+    # Retrieve and print command-line arguments
+    command_port = sys.argv[1]
+else:
+    print("No COM port argument provided.")
+    exit(-1)
+
+//command_port = '/dev/cu.usbserial-A4016Z9Q'
 
 cmd_serial = serial.Serial(command_port, 9600, timeout=1)
 
