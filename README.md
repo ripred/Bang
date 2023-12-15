@@ -19,8 +19,17 @@ So far I have written and added the following sketches to the **[PublicGallery](
 
 In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line:
 
+For Windows:
 ```
-$ sudo 2>&1 python -m arduino_exec.py
+` Replace 'COM3' with the COM port your arduino is connected to
+C:\> python 2>&1 -m arduino_exec.py COM3
+Waiting for a command from the Arduino...
+```
+
+For Mac and Linux:
+```
+# Replace the device path '/dev/cu.usbserial-A4016Z9Q' withthe path to your arduino port
+$ sudo 2>&1 python -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
 
@@ -32,7 +41,7 @@ The `2>&1` term will ensure that all output is captured and returned to your Ard
 
 **Using ArduinoCLI in your Arduino sketches**
 
-To use ArduinoCLI in your sketches, simply use `Serial.println( "command" )` to send the command to the USB (`COM`) port used by your Arduino. NOTE that you need to edit the `arduino_exec.py` source file and modify it to reference the specific `COM` port or `/dev/...` device path that your Arduino uses. I will be updating the arduino_exec.py source file soon so that the `COM` port or `/dev/...` path can just be specified on the command line that invokes the Python Agent but I have not gotten to that yet. **😄**
+To use ArduinoCLI in your sketches, simply use `Serial.println( "command" )` to send the command to the USB (`COM`) port used by your Arduino.
 
 **If you want to be able to use the Serial monitor separately from using ArduinoCLI** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to additionally use the Serial monitor.
 
