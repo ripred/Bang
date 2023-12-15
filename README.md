@@ -12,6 +12,7 @@ So far I have written and added the following sketches to the **[PublicGallery](
 -   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not!
 -   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host machine to go to sleep, reboot, or shutdown
 -   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/pjlink/pjlink.ino)** sketch for an example of invoking the `pjlink` command line tool for controlling and retrieving information from projectors and other PJLINK capable devices
+-   **[hue.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/hue/hue.ino)** example sketch for controlling the lights in your home via the Hue Bridge using 'curl' commands.
 
 <!-- &#160; -->
 ___
