@@ -12,6 +12,8 @@ So far I have written and added the following sketches to the PublicGallery fold
 -   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not! Special thanks to reddit user u/NoBodyDroid for the idea!
 -   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host macine to go to sleep, reboot, or shutdown
 
+&#160;
+
 **Starting the Python Agent**
 
 In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line:
@@ -25,6 +27,17 @@ Note that if you don't plan on executing any commands that require the extra roo
 
 The `2>&1` term will ensure that all output is captured and returned to your Arduino including any output directed to stderr in addition to the normal output sent to stdout.
 
+&#160;
+
+**Using ArduinoCLI in your Arduino sketches**
+
+To use ArduinoCLI in your sketches, simply use `Serial.println( "command" )` to send the command to the USB (`COM`) port used by your Arduino. NOTE that you need to edit the `arduino_exec.py` source file and modify it to reference the specific `COM` port or `/dev/...` device path that your Arduino uses. I will be updating the arduino_exec.py source file soon so that the `COM` port or `/dev/...` path can just be specified on the command line that invokes the Python Agent but I have not gotten to that yet. **😄**
+
+**If you want to be able to use the Serial monitor separately from using ArduinoCLI** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to additionally use the Serial monitor.
+
+&#160;
+
+**The Future Uses of ArduinoCLI**
 
 The following are some of the ideas I have had that this technique can be used for:
 
