@@ -12,6 +12,14 @@ So far I have written and added the following sketches to the PublicGallery fold
 -   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not! Special thanks to reddit user u/NoBodyDroid for the idea!
 -   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host macine to go to sleep, reboot, or shutdown
 
+In order to allow your arduino to execute all programs that are requested, as well as to capture all of the output you should start the Python Agent using the following command line:
+
+```bash
+$ sudo 2>&1 python -m arduino_exec.py
+$ Waiting for a command from the Arduino...
+```
+
+
 The following are some of the ideas I have had that this technique can be used for:
 
 * Invoke 'curl' commands to send internet requests and optionally retrieve the response back to your Arduino. Many of the following ideas are just expanded ideas of this basic ability.
