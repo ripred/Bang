@@ -10,3 +10,4 @@ So far I have written and added the following sketches to the PublicGallery fold
 -   **[datetime.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/datetime/datetime.ino)** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
 -   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not! Special thanks to reddit user u/NoBodyDroid for the idea!
 -   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host macine to go to sleep, reboot, or shutdown
+-   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/pjlink/pjlink.ino)** sketch for an example of invoking the PJLink command line tool.
