@@ -1,5 +1,5 @@
 # ArduinoCLI
-Make your PC a "service" for your Arduino and execute any commands on it's behalf and receive the captured results! Play music, use the PC's disk drive, issue curl commands to post or retrieve anything on the web! The possibilities are endless!
+Make your Windows, Mac, or Linux host available as a "service" for your Arduino and execute any commands on it's behalf and receive the captured results! Play music, use the PC's disk drive, issue curl commands to post or retrieve anything on the web! The possibilities are endless!
 
 So far I have written and added the following sketches to the **[PublicGallery](https://github.com/ripred/ArduinoCLI/tree/main/PublicGallery)** folder:
 
