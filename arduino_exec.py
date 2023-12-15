@@ -9,7 +9,7 @@ else:
     print("No COM port argument provided.")
     exit(-1)
 
-//command_port = '/dev/cu.usbserial-A4016Z9Q'
+#command_port = '/dev/cu.usbserial-A4016Z9Q'
 
 cmd_serial = serial.Serial(command_port, 9600, timeout=1)
 
