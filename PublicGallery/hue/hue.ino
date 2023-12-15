@@ -2,6 +2,7 @@
  * hue.ino
  *
  * ArduinoCLI sketch to control Hue lights using curl commands.
+ * 
  */
 
 #include <SoftwareSerial.h>
