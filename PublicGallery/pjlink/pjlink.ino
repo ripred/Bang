@@ -32,7 +32,7 @@ void setup() {
     command_serial.println(command);
 
     uint32_t start = millis();
-    while (millis() - start < 2000) {
+    while (millis() - start < 1500) {
         while (command_serial.available() > 0) {
             String output = command_serial.readString();
             output.trim();
