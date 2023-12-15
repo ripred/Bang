@@ -1,7 +1,7 @@
 # ArduinoCLI
 Make your PC a "service" for your Arduino and execute any commands on it's behalf and receive the captured results! Play music, use the PC's disk drive, issue curl commands to post or retrieve anything on the web! The possibilities are endless!
 
-So far I have written and added the following sketches to the PublicGallery folder:
+So far I have written and added the following sketches to the **[PublicGallery](https://github.com/ripred/ArduinoCLI/tree/main/PublicGallery)** folder:
 
 -   **[ArduinoCLI.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/arduinoCLI/arduinoCLI.ino)** example sketch
 -   **[macFreeDiskSpace.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macFreeDiskSpace/macFreeDiskSpace.ino)** sketch to monitor and blink an LED if your PC/Mac/Linux disk drive falls below a certain amount of free space
