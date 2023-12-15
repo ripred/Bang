@@ -3,7 +3,7 @@ Public gallery of example Arduino sketches using the Python Agent
 So far I have written and added the following sketches to the PublicGallery folder:
 
 -   **[ArduinoCLI.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/arduinoCLI/arduinoCLI.ino)** example sketch
--   **[macFreeDiskSpace.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macFreeDiskSpace/macFreeDiskSpace.ino)** sketch to monitor and blink an LED if your PC/Mac/Linux disk drive falls below a a certain amount of free space
+-   **[macFreeDiskSpace.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macFreeDiskSpace/macFreeDiskSpace.ino)** sketch to monitor and blink an LED if your PC/Mac/Linux disk drive falls below a certain amount of free space
 -   **[macPlayMusic.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macPlayMusic/macPlayMusic.ino)** sketch to play any song in your music library when your Arduino sketch tells it to play it
 -   **[macSpeechSynthesizer.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macSpeechSynthesizer/macSpeechSynthesizer.ino)** sketch to make your Mac speak anything your Arduino tells it to
 -   **[openWeatherMap.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/openWeatherMap/openWeatherMap.ino)** sketch to retrieve the city name, latitude, longitude, current conditions, temperature, feels like temperature, humidity, wind speed, and wind direction for any zip code.
