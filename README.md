@@ -21,14 +21,14 @@ In order to allow your Arduino to execute all programs that are requested, as we
 
 For Windows:
 ```
-` Replace 'COM3' with the COM port your arduino is connected to
+` Replace 'COM3' with the COM port your Arduino is connected to
 C:\> python 2>&1 -m arduino_exec.py COM3
 Waiting for a command from the Arduino...
 ```
 
 For Mac and Linux:
 ```
-# Replace the device path '/dev/cu.usbserial-A4016Z9Q' withthe path to your arduino port
+# Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
 $ sudo 2>&1 python -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
