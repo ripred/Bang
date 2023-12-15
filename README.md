@@ -9,9 +9,9 @@ So far I have written and added the following sketches to the **[PublicGallery](
 -   **[macSpeechSynthesizer.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macSpeechSynthesizer/macSpeechSynthesizer.ino)** sketch to make your Mac speak anything your Arduino tells it to
 -   **[openWeatherMap.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/openWeatherMap/openWeatherMap.ino)** sketch to retrieve the city name, latitude, longitude, current conditions, temperature, feels like temperature, humidity, wind speed, and wind direction for any zip code.
 -   **[datetime.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/datetime/datetime.ino)** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
--   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not! Special thanks to reddit user u/NoBodyDroid for the idea!
+-   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not!
 -   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host machine to go to sleep, reboot, or shutdown
--   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/pjlink/pjlink.ino)** sketch for an example of invoking the PJLink command line tool.
+-   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/pjlink/pjlink.ino)** sketch for an example of invoking the `pjlink` command line tool for controlling and retrieving information from projectors and other PJLINK capable devices
 
 <!-- &#160; -->
 ## Starting the Python Agent
