@@ -3,7 +3,7 @@ Make your Windows, Mac, or Linux host available as a "service" for your Arduino 
 
 So far I have written and added the following sketches to the **[PublicGallery](https://github.com/ripred/ArduinoCLI/tree/main/PublicGallery)** folder:
 
--   **[ArduinoCLI.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/arduinoCLI/arduinoCLI.ino)** example sketch
+-   **[ArduinoCLI.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/arduinoCLI/arduinoCLI.ino)** example sketch that lets you send any command from the serial monitor window and receive the response.
 -   **[macFreeDiskSpace.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macFreeDiskSpace/macFreeDiskSpace.ino)** sketch to monitor and blink an LED if your PC/Mac/Linux disk drive falls below a certain amount of free space
 -   **[macPlayMusic.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macPlayMusic/macPlayMusic.ino)** sketch to play any song in your music library when your Arduino sketch tells it to play it
 -   **[macSpeechSynthesizer.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/macSpeechSynthesizer/macSpeechSynthesizer.ino)** sketch to make your Mac speak anything your Arduino tells it to
