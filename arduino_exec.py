@@ -1,6 +1,14 @@
-import sys
-import serial
 import subprocess
+import signal
+import serial
+import sys
+
+prompted = False
+
+def sigint_handler(signum, frame):
+    print("\nuser hit ctrl-c, exiting.")
+    sys.exit(0)
+
 
 # Check if there are command-line arguments
 if len(sys.argv) > 1:
@@ -30,7 +38,9 @@ def execute_command(command):
         # If the command execution fails, return the error message
         return str(e.output)
 
-prompted = False
+# Set the SIGINT handler
+signal.signal(signal.SIGINT, sigint_handler)
+
 while True:
     if not prompted:
         print("Waiting for a command from the Arduino...")
