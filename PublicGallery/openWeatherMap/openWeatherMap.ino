@@ -9,13 +9,10 @@
 
 #include <SoftwareSerial.h>
 #include <ArduinoJson.h>
+#include "openweathermap.h"
 
 #define  RX_PIN     7
 #define  TX_PIN     8
-
-// create a free account at openweathermap.org and copy your key
-#define  API_KEY    "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-#define  ZIPCODE    "12345"
 
 // Software Serial object to send the
 // commands to the Python Agent
