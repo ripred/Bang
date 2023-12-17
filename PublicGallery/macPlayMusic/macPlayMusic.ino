@@ -10,7 +10,6 @@
 
 #define  RX_PIN     7
 #define  TX_PIN     8
-#define  ALERT_PIN  LED_BUILTIN
 
 // Software Serial object to send the
 // commands to the Python Agent
