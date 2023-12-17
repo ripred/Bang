@@ -31,3 +31,4 @@
 *.out
 *.app
 __pycache__/arduino_exec.cpython-310.pyc
+PublicGallery/openWeatherMap/openweathermap.h
