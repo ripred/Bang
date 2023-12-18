@@ -1,16 +1,24 @@
+# 
+# arduino_exec.py 
+# 
+# Python Agent for the ArduinoCLI platform
+# https://github.com/ripred/ArduinoCLI
+# 
+#  v1.0 written 2023-12-10 ++trent m wyatt
+# 
+
 import subprocess
 import signal
 import serial
 import sys
 
-prompted = False
-
+#
+# signal handler for ctrl-c
+#
 def sigint_handler(signum, frame):
-    print("\nuser hit ctrl-c, exiting.")
+    print(" user hit ctrl-c, exiting.")
     sys.exit(0)
 
-
-# Check if there are command-line arguments
 if len(sys.argv) > 1:
     # Retrieve and print command-line arguments
     command_port = sys.argv[1]
@@ -18,7 +26,9 @@ else:
     print("No COM port argument provided.")
     exit(-1)
 
-#command_port = '/dev/cu.usbserial-A4016Z9Q'
+
+# Set the SIGINT handler
+signal.signal(signal.SIGINT, sigint_handler)
 
 cmd_serial = serial.Serial(command_port, 9600, timeout=1)
 
@@ -38,9 +48,7 @@ def execute_command(command):
         # If the command execution fails, return the error message
         return str(e.output)
 
-# Set the SIGINT handler
-signal.signal(signal.SIGINT, sigint_handler)
-
+prompted = False
 while True:
     if not prompted:
         print("Waiting for a command from the Arduino...")
