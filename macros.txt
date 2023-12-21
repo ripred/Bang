@@ -1,0 +1,3 @@
+{
+    "sayhi": "echo 'hello, Arduino'"
+}
