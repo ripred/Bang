@@ -146,7 +146,7 @@ def run():
                 _, name = command.split(":")
                 result = delete_macro(name, macros)
             else:
-                result = f"unrecognized macro command: {command}"
+                result = f"unrecognized macro command: @{command}"
         elif cmd_id == '!':
             # Dispatch the command to handle built-in commands
             result = execute_command(command)
