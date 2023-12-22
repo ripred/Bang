@@ -77,9 +77,23 @@ def get_args():
     @brief Get the serial port from the command line.
 
     Checks if a serial port argument is provided in the command line.
+    Also, handles --help or -h options to display usage information.
 
     @return str: The serial port obtained from the command line.
     """
+    if "--help" in sys.argv or "-h" in sys.argv:
+        print("Usage: python arduino_exec.py <COM_port>")
+        print("\nOptions:")
+        print("  --help, -h   : Show this help message and exit.")
+        print("  ! <command>  : Execute a command on the host machine and get back any output.")
+        print("  @ <macro>    : Execute a pre-registered command on the host machine using a macro name.")
+        print("  & <folder>   : Compile and upload the Arduino code in the specified folder.")
+        print("\nMacro Management Commands:")
+        print("  @list_macros  : List all registered macros.")
+        print("  @add_macro    : Add a new macro (Usage: @add_macro:<name>:<command>).")
+        print("  @delete_macro : Delete a macro (Usage: @delete_macro:<name>).")
+        exit(0)
+
     if len(sys.argv) <= 1:
         print("Usage: python arduino_exec.py <COM_port>")
         exit(-1)
