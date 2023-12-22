@@ -1,11 +1,11 @@
-# 
-# arduino_exec.py 
-# 
+#
+# arduino_exec.py
+#
 # Python Agent for the ArduinoCLI platform
 # https://github.com/ripred/ArduinoCLI
-# 
+#
 #  v1.0 written 2023-12-10 ++trent m wyatt
-# 
+#
 import subprocess
 import signal
 import serial
@@ -104,28 +104,6 @@ def delete_macro(name, macros):
 # ================================================================================
 
 
-def dispatch_command(arduino_command, macros):
-    normalized_command = arduino_command.lower()
-
-    if normalized_command in macros:
-        return execute_command(macros[normalized_command])
-    elif normalized_command == "list_macros":
-        macro_list = [f'    "{macro}": "{macros[macro]}"' for macro in macros]
-        response = "Registered Macros:\n" + "\n".join(macro_list)
-        return response
-    elif normalized_command.startswith("add_macro:"):
-        _, name, command = normalized_command.split(":")
-        create_macro(name, command, macros)
-        return f"Macro '{name}' created with command '{command}'"
-    elif normalized_command.startswith("delete_macro:"):
-        _, name = normalized_command.split(":")
-        result = delete_macro(name, macros)
-        return result
-    else:
-        # Handle unknown command or provide default behavior
-        return execute_command(arduino_command)
-
-
 def run():
     global macros
 
@@ -143,29 +121,43 @@ def run():
         arduino_command = cmd_serial.readline().decode('utf-8').strip()
         arduino_command = arduino_command.strip()
 
-        if arduino_command:
-            print(f"Received command from Arduino: '{arduino_command}'")
+        if not arduino_command:
+            continue
 
-            # Check if the command is a macro
-            if arduino_command in macros:
-                result_output = execute_command(macros[arduino_command])
+        print(f"Received command from Arduino: '{arduino_command}'")
+
+        cmd_id = arduino_command[0]     # Extract the first character
+        command = arduino_command[1:]   # Extract the remainder of the command
+        result = ""
+
+        # Check if the command is a macro related command:
+        if cmd_id == '@':
+            if command in macros:
+                result = execute_command(macros[command])
+            elif command == "list_macros":
+                macro_list = [f'    "{macro}": "{macros[macro]}"'
+                              for macro in macros]
+                result = "Registered Macros:\n" + "\n".join(macro_list)
+            elif command.startswith("add_macro:"):
+                _, name, command = command.split(":")
+                create_macro(name, command, macros)
+                result = f"Macro '{name}' created with command '{command}'"
+            elif command.startswith("delete_macro:"):
+                _, name = command.split(":")
+                result = delete_macro(name, macros)
             else:
-                # Dispatch the command to handle built-in commands
-                result_output = dispatch_command(arduino_command, macros)
+                result = f"unrecognized macro command: {command}"
+        elif cmd_id == '!':
+            # Dispatch the command to handle built-in commands
+            result = execute_command(command)
+        else:
+            result = f"unrecognized cmd_id: {cmd_id}"
 
-            for line in result_output.split('\n'):
-                print(line + '\n')
-                if cmd_serial:
-                    cmd_serial.write(line.encode('utf-8') + b'\n')
+        for line in result.split('\n'):
+            print(line + '\n')
+            cmd_serial.write(line.encode('utf-8') + b'\n')
 
-            prompted = False
-
-        # If you want to handle a specific command to update the macros,
-        # you can add a condition here.
-        # For example, if arduino_command == 'UPDATE_MACROS':
-        #     # Update the macros based on the data received from Arduino
-        #     update_macros(data_received_from_arduino)
-        #     save_macros(macros)
+        prompted = False
 
 
 if __name__ == '__main__':
