@@ -30,7 +30,7 @@ String Bang::send_and_recv(char const cmd_id, char const *pcmd) {
     String cmd(String(cmd_id) + pcmd);
     Stream &stream = *cmdstrm;
     stream.println(cmd);
-    delay(10);
+    delay(100);
     while (stream.available()) {
         output += stream.readString();
     }
