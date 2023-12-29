@@ -28,7 +28,7 @@ void setup() {
     Serial.begin(115200);
     command_serial.begin(9600);
 
-    String command = "pjlink --help";
+    String command = "!pjlink --help";
     command_serial.println(command);
 
     uint32_t start = millis();
