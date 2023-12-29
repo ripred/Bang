@@ -35,28 +35,81 @@ String insert_line(char const *filename, int const line_num, char const *text);
 String append_line(char const *filename, char const *text);
 int get_num_lines(char const *filename);
 
+void format_uint32_with_commas(uint32_t value, bool const newline=true) {
+    char buffer[32]; // Adjust the size based on your maximum expected number
+    memset(buffer, 0, sizeof(buffer));
+    sprintf(buffer, "%lu", value);
+    
+    for (int i = strlen(buffer) - 3; i > 0; i -= 3) {
+        memmove(buffer + i + 1, buffer + i, strlen(buffer) - i);
+        buffer[i] = ',';
+    }
+    
+    Serial.print(buffer);
+    if (newline) {
+        Serial.write('\n');
+    }
+}
+
+void format_double_with_commas(double value, int precision = 2, bool const newline=true) {
+    uint32_t intValue = static_cast<uint32_t>(value);
+    format_uint32_with_commas(intValue, false);
+    
+    char buffer[32]; // Adjust the size based on your maximum expected number
+    memset(buffer, 0, sizeof(buffer));
+    dtostrf(value - intValue, 0, precision, buffer);
+    Serial.print(buffer + 1);
+    if (newline) {
+        Serial.write('\n');
+    }
+}
+
 void setup() {
     Serial.begin(115200);
-    command_serial.begin(9600);
-    command_serial.setTimeout(5);
+    command_serial.begin(38400);
+    command_serial.setTimeout(1);
+
+    Serial.println(F("\nrunning host file I/O tests...\n"));
 
     char const *filename = "testing.txt";
-    char text[32] = "line 1";
-
-    int const max_lines = 10;
+    char text[128] = "line 1 ******************************************************************************************";
 
     create_file(filename, text);
-    for (int line=2; line <= max_lines; line++) {
-        snprintf(text, sizeof(text), "line %d", line);
-        append_line(filename, text);
-        delay(10);
-    }
 
-    delay(400);
+    int const max_lines = 50;
+
+    char const fmt[] = "line %d ******************************************************************************************";
+
+    double factor = 1.0;
+    double start = micros() / factor;
+    for (int line=2; line <= max_lines; line++) {
+        snprintf(text, sizeof(text), fmt, line);
+        append_line(filename, text);
+    }
+    double stop = micros() / factor;
+
+    uint32_t const total_bits = (strlen(fmt) + 2) * max_lines * 10UL;
+    double const time_spent = stop - start;
+
+    Serial.print("total bits transferred: ");
+    format_uint32_with_commas(total_bits, false);
+    Serial.print(" = ");
+    format_uint32_with_commas((strlen(fmt) + 2) * max_lines, false);
+    Serial.println(" bytes");
+
+    Serial.print("total time spent: ");
+    format_double_with_commas(time_spent / 1000000.0, 2, false);
+    Serial.println(" seconds");
+
+    double const bps = (double(total_bits) / time_spent) * 1000000.0;
+    format_double_with_commas(bps, 2, false);
+    Serial.println(" bps transfer rate");
+
+    double const Bps = ((double(total_bits) / 8.0) / time_spent) * 1000000.0;
+    format_double_with_commas(Bps, 2, false);
+    Serial.println(" BPS transfer rate");
 
     int const num_lines = get_num_lines(filename);
-
-    delay(30);
 
     Serial.print(F("get_num_lines(...) returned: "));
     Serial.println(num_lines, DEC);
@@ -71,18 +124,18 @@ void setup() {
         String text = get_line(filename, line + 1);
         int line_num = atoi(text.c_str() + 5);
 
-        text.trim();
-        Serial.print(text);
-
         if ((line + 1) == line_num) {
-            Serial.println(F(": passed"));
+//            Serial.println(F(": passed"));
         }
         else {
+            text.trim();
+            Serial.print(text);
             Serial.println(F(": failed"));
         }
     }
 
     delete_file(filename);
+    Serial.println(F("\ntests completed.\n"));
 }
 
 void loop() {
