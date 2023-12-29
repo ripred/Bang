@@ -20,7 +20,7 @@ void setup() {
 
     // the text you want your Mac to speak
     String text = "hello, I am an Arduino.";
-    String command = "say " + text;
+    String command = "!say " + text;
     command_serial.println(command);
 }
 
