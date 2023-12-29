@@ -12,6 +12,8 @@
 #define HUE_BRIDGE_IP "192.168.1.2"  // Replace with your Hue Bridge IP
 
 #define YOUR_USERNAME "your_username"  // Replace with your Hue Bridge username
+
+// change to match your Hue Bridge group numbers
 #define LIGHT_ID_1 1
 #define LIGHT_ID_2 2
 #define GROUP_ID 1
@@ -20,7 +22,7 @@ SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
 // Function to create and format the command string
 String formatCommand(String apiEndpoint, String method, String additionalParams = "") {
-    return "curl -s -X " + method + " -H \"Content-Type: application/json\" -d '" + additionalParams +
+    return "!curl -s -X " + method + " -H \"Content-Type: application/json\" -d '" + additionalParams +
            "' http://" + HUE_BRIDGE_IP + "/api/" + YOUR_USERNAME + "/" + apiEndpoint;
 }
 
