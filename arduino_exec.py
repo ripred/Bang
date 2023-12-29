@@ -5,6 +5,10 @@ arduino_exec.py
 communication with Arduino boards, enabling the execution of built-in
 commands, macros, and compilation/upload of Arduino code.
 
+see the project repository for full details, installation, and use:
+https://github.com/ripred/ArduinoCLI
+
+
 @author Trent M. Wyatt
 @date 2023-12-10
 @version 1.2
@@ -30,6 +34,21 @@ executable is in your system's PATH. The '&' operations use
 'arduino-cli compile' and 'arduino-cli upload' commands to compile and
 upload Arduino code. Ensure the Arduino CLI commands are accessible
 before using the compile and upload functionality.
+
+======================================================================
+
+For Windows Users
+
+C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
+C:\> cmd /c python -m arduino_exec.py COM3 2>&1
+Waiting for a command from the Arduino...
+```
+
+For Mac and Linux Users:
+```
+$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
+$ python 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
+
 """
 
 import subprocess
@@ -40,12 +59,19 @@ import json
 import sys
 import os
 
+
 # A list of abbreviated commands that the Arduino
 # can send to run a pre-registered command:
 macros = {}
 
 # The logger
 logger = None
+
+# The name of the port
+port_name = ""
+
+# The serial port
+cmd_serial = None
 
 
 def setup_logger():
@@ -81,24 +107,32 @@ def get_args():
 
     @return str: The serial port obtained from the command line.
     """
+    global port_name
+
     if "--help" in sys.argv or "-h" in sys.argv:
         print("Usage: python arduino_exec.py <COM_port>")
         print("\nOptions:")
         print("  --help, -h   : Show this help message and exit.")
-        print("  ! <command>  : Execute a command on the host machine and get back any output.")
-        print("  @ <macro>    : Execute a pre-registered command on the host machine using a macro name.")
-        print("  & <folder>   : Compile and upload the Arduino code in the specified folder.")
+        print("  ! <command>  : Execute a command on the "
+              + "host machine and get back any output.")
+        print("  @ <macro>    : Execute a pre-registered command "
+              + "on the host machine using a macro name.")
+        print("  & <folder>   : Compile and upload the Arduino "
+              + "code in the specified folder.")
         print("\nMacro Management Commands:")
         print("  @list_macros  : List all registered macros.")
-        print("  @add_macro    : Add a new macro (Usage: @add_macro:<name>:<command>).")
-        print("  @delete_macro : Delete a macro (Usage: @delete_macro:<name>).")
+        print("  @add_macro    : Add a new macro (Usage: "
+              + "@add_macro:<name>:<command>).")
+        print("  @delete_macro : Delete a macro (Usage: "
+              + "@delete_macro:<name>).")
         exit(0)
 
     if len(sys.argv) <= 1:
         print("Usage: python arduino_exec.py <COM_port>")
         exit(-1)
 
-    return sys.argv[1]
+    port_name = sys.argv[1]
+    return port_name
 
 
 def sigint_handler(signum, frame):
@@ -141,13 +175,15 @@ def open_serial_port(port):
     @exit If the serial port cannot be opened,
           the program exits with an error message.
     """
-    cmd_serial = serial.Serial(port, 9600, timeout=1)
+    global cmd_serial
+
+    cmd_serial = serial.Serial(port, 9600, timeout=0.03)
 
     if not cmd_serial:
-        print(f"Could not open the serial port {port}")
-        exit(0)
+        print(f"Could not open the serial port: '{port}'")
+        exit(-1)
 
-    print(f"Succesfully opened serial port {port}")
+    print(f"Successfully opened serial port: '{port}'")
     return cmd_serial
 
 
@@ -169,7 +205,9 @@ def execute_command(command):
                                          stderr=subprocess.STDOUT)
         return result.decode('utf-8')
     except subprocess.CalledProcessError as e:
-        return f"Error executing command: {e}"
+        errtxt = f"Error executing command: {e}"
+        logger.error(errtxt)
+        return errtxt
     except Exception as e:
         errtxt = f"An unexpected error occurred: {e}"
         logger.error(errtxt)
@@ -278,11 +316,6 @@ def delete_macro(name, macros):
         return f"Macro '{name}' not found"
 
 
-# Define constant part of the compile and upload commands
-COMPILE_COMMAND_BASE = 'arduino-cli compile --fqbn arduino:avr:nano'
-UPLOAD_COMMAND_BASE = 'arduino-cli upload -p /dev/cu.usbserial-41430 --fqbn arduino:avr:nano:cpu=atmega328old'
-
-
 def compile_and_upload(folder):
     """
     @brief Compile and upload Arduino code.
@@ -293,6 +326,8 @@ def compile_and_upload(folder):
 
     @return str: Result of compilation and upload process.
     """
+    global cmd_serial
+
     # Check if the specified folder exists
     if not os.path.exists(folder):
         return f"Error: Folder '{folder}' does not exist."
@@ -300,15 +335,26 @@ def compile_and_upload(folder):
     # Check if the folder contains a matching .ino file
     ino_file = os.path.join(folder, f"{os.path.basename(folder)}.ino")
     if not os.path.isfile(ino_file):
-        return f"Error: Folder '{folder}' does not contain a matching .ino file."
+        return
+    f"Error: Folder '{folder}' does not contain a matching .ino file."
+
+    # Define constant part of the compile and upload commands
+    PORT_NAME = '/dev/cu.usbserial-41430'
+    COMPILE_COMMAND_BASE = 'arduino-cli compile --fqbn arduino:avr:nano'
+    UPLOAD_COMMAND_BASE = 'arduino-cli upload -p '
+    + PORT_NAME + ' --fqbn arduino:avr:nano:cpu=atmega328old'
 
     compile_command = f'{COMPILE_COMMAND_BASE} {folder}'
     upload_command = f'{UPLOAD_COMMAND_BASE} {folder}'
 
     compile_result = execute_command(compile_command)
-    upload_result = execute_command(upload_command)
+    print(f"executed: {compile_command}\nresult: {compile_result}")
 
-    result = f"Compile Result:\n{compile_result}\nUpload Result:\n{upload_result}"
+    upload_result = execute_command(upload_command)
+    print(f"executed: {upload_command}\nresult: {upload_result}")
+
+    result = f"Compile Result:\n{compile_result}\n"
+    + "Upload Result:\n{upload_result}"
 
     return result
 
@@ -322,9 +368,10 @@ def run():
     @return None
     """
     global macros
+    global cmd_serial
 
     port = get_args()
-    cmd_serial = open_serial_port(port)
+    open_serial_port(port)
     set_signal_handler()
     macros = load_macros()
     setup_logger()
@@ -333,7 +380,7 @@ def run():
     while True:
         if not prompted:
             print("Waiting for a command from the Arduino...")
-        prompted = True
+            prompted = True
 
         arduino_command = cmd_serial.readline().decode('utf-8').strip()
         arduino_command = arduino_command.strip()
@@ -342,15 +389,20 @@ def run():
             continue
 
         logtext = f"Received command from Arduino: '{arduino_command}'"
-        print(logtext)
+#       print(logtext)
         logger.info(logtext)
 
         cmd_id = arduino_command[0]     # Extract the first character
         command = arduino_command[1:]   # Extract the remainder of the command
         result = ""
 
+        # Check if the command is an execute command:
+        if cmd_id == '!':
+            # Dispatch the command to handle built-in commands
+            result = execute_command(command)
+
         # Check if the command is a macro related command:
-        if cmd_id == '@':
+        elif cmd_id == '@':
             if command in macros:
                 result = execute_command(macros[command])
             elif command == "list_macros":
@@ -366,14 +418,20 @@ def run():
                 result = delete_macro(name, macros)
             else:
                 result = f"unrecognized macro command: @{command}"
-        elif cmd_id == '!':
-            # Dispatch the command to handle built-in commands
-            result = execute_command(command)
+                print(result + '\n')
+                cmd_serial.write(result.encode('utf-8') + b'\n')
+                continue
+
+        # Check if the command is a build and upload command:
         elif cmd_id == '&':
             # Dispatch the compile and avrdude upload
             result = compile_and_upload(command)
+
         else:
             result = f"unrecognized cmd_id: {cmd_id}"
+            print(result + '\n')
+            cmd_serial.write(result.encode('utf-8') + b'\n')
+            continue
 
         for line in result.split('\n'):
             print(line + '\n')
