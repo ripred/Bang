@@ -23,11 +23,11 @@ void setup() {
     command_serial.begin(9600);
 
 #ifdef WINDOWS
-    command_serial.println(F("echo %DATE:~10,4%-%DATE:~4,2%-%DATE:~7,2% %TIME:~0,2%:%TIME:~3,2%:%TIME:~6,2%"));
+    command_serial.println(F("!echo %DATE:~10,4%-%DATE:~4,2%-%DATE:~7,2% %TIME:~0,2%:%TIME:~3,2%:%TIME:~6,2%"));
 #endif
 
 #ifdef MAC
-    command_serial.println(F("date '+%Y-%m-%d %H:%M:%S'"));
+    command_serial.println(F("!date '+%Y-%m-%d %H:%M:%S'"));
 #endif
 
     String response = command_serial.readString();
