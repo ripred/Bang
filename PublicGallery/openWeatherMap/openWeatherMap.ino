@@ -19,7 +19,7 @@
 SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
 void get_weather(char const *zipcode, char const *api_key, char *buff) {
-    char const *fmt = "curl -s -m 60 'http://api.openweathermap.org/data/2.5/weather?zip=%s&units=imperial&appid=%s'";
+    char const *fmt = "!curl -s -m 60 'http://api.openweathermap.org/data/2.5/weather?zip=%s&units=imperial&appid=%s'";
     sprintf(buff, fmt, zipcode, api_key);
 }
 
