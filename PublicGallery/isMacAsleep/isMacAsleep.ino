@@ -21,7 +21,7 @@ void setup() {
 }
 
 void loop() {
-    command_serial.println(F("pmset -g ps | grep -q 'Sleeping' && echo 'Sleeping' || echo 'Not sleeping'"));
+    command_serial.println(F("!pmset -g ps | grep -q 'Sleeping' && echo 'Sleeping' || echo 'Not sleeping'"));
 
     String response = command_serial.readString();
     response.trim();
