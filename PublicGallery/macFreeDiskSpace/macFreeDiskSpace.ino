@@ -39,7 +39,7 @@ void setup() {
 }
 
 void loop() {
-    char const command[] PROGMEM = "df -P / | awk 'NR==2 {print $4}' | tr -d 'G'";
+    char const command[] PROGMEM = "!df -P / | awk 'NR==2 {print $4}' | tr -d 'G'";
     command_serial.println(command);
     delay(1000);
     if (command_serial.available() > 5) {
