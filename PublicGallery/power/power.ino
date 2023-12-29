@@ -35,21 +35,21 @@ SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
  */
 
 void sleep() {
-    String command = "shutdown /h";     // on some Windows systems this tells the host to hybernate
+    String command = "!shutdown /h";     // on some Windows systems this tells the host to hybernate
                                         // on others it puts the host to sleep
     command_serial.println(command);
 }
 
 void reboot(int const delay_seconds = 300) {
     char command[64] = "";
-    sprintf(command, "shutdown /r /t %d", delay_seconds);
+    sprintf(command, "!shutdown /r /t %d", delay_seconds);
 
     command_serial.println(command);
 }
 
 void shutdown(int const delay_seconds = 300) {
     char command[64] = "";
-    sprintf(command, "shutdown /s /t %d", delay_seconds);
+    sprintf(command, "!shutdown /s /t %d", delay_seconds);
 
     command_serial.println(command);
 }
@@ -62,21 +62,21 @@ void shutdown(int const delay_seconds = 300) {
  */
 
 void sleep() {
-    String command = "pmset sleepnow";
+    String command = "!pmset sleepnow";
 
     command_serial.println(command);
 }
 
 void reboot(int const delay_minutes = 5) {
     char command[64] = "";
-    sprintf(command, "shutdown -r +%d", delay_minutes);
+    sprintf(command, "!shutdown -r +%d", delay_minutes);
 
     command_serial.println(command);
 }
 
 void shutdown(int const delay_minutes = 5) {
     char command[64] = "";
-    sprintf(command, "shutdown -h +%d", delay_minutes);
+    sprintf(command, "!shutdown -h +%d", delay_minutes);
 
     command_serial.println(command);
 }
@@ -90,21 +90,21 @@ void shutdown(int const delay_minutes = 5) {
  */
 
 void sleep() {
-    String command = "systemctl suspend";
+    String command = "!systemctl suspend";
 
     command_serial.println(command);
 }
 
 void reboot(int const delay_minutes = 5) {
     char command[64] = "";
-    sprintf(command, "shutdown -r +%d", delay_minutes);
+    sprintf(command, "!shutdown -r +%d", delay_minutes);
 
     command_serial.println(command);
 }
 
 void shutdown(int const delay_minutes = 5) {
     char command[64] = "";
-    sprintf(command, "shutdown -h +%d", delay_minutes);
+    sprintf(command, "!shutdown -h +%d", delay_minutes);
 
     command_serial.println(command);
 }
