@@ -23,7 +23,7 @@ In order to allow your Arduino to execute all programs that are requested, as we
 #### For Windows Users:
 ```
 C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> runas /user:Administrator "cmd /c python -m arduino_exec.py COM3 2>&1"
+C:\> runas /user:Administrator "cmd /c python3 -m arduino_exec.py COM3 2>&1"
 Waiting for a command from the Arduino...
 ```
 
@@ -31,14 +31,14 @@ Note that if you don't plan on executing any commands that require the extra adm
 
 ```
 C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> cmd /c python -m arduino_exec.py COM3 2>&1
+C:\> cmd /c python3 -m arduino_exec.py COM3 2>&1
 Waiting for a command from the Arduino...
 ```
 
 #### For Mac and Linux Users:
 ```
 $ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ sudo 2>&1 python -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
+$ sudo 2>&1 python3 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
 
@@ -46,7 +46,7 @@ Note that if you don't plan on executing any commands that require the extra roo
 
 ```
 $ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ python 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
+$ python3 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
 
@@ -70,7 +70,7 @@ The following are some of the ideas I have had that this technique can be used f
 * Play and stop music or movies on your host machine
 * Retrieve weather info and control devices based on the results
 * Retrieve sports updates using public API's such as NHL's and MLB's api's
-* Write and retrieve data to files on your host machine and take advantage of it's muchlarger capacity versus an SD card! Basically all file functionality that you can do from the command line like creating files, appending to them, reading them back, and deleting them, etc.
+* Write and retrieve data to files on your host machine and take advantage of it's much larger capacity versus an SD card! Basically all file functionality that you can do from the command line like creating files, appending to them, reading them back, and deleting them, etc.
 * Post or retrieve posts with reddit without using a complex reddit api (and their limitations! 😉)
 * Access and use a running database server on your host machine
 * Submit sensor data to running machine learning training
