@@ -80,34 +80,33 @@ void setup() {
 
     char const fmt[] = "line %d ******************************************************************************************";
 
-    double factor = 1.0;
-    double start = micros() / factor;
+    double start = micros();
     for (int line=2; line <= max_lines; line++) {
         snprintf(text, sizeof(text), fmt, line);
         append_line(filename, text);
     }
-    double stop = micros() / factor;
+    double stop = micros();
 
     uint32_t const total_bits = (strlen(fmt) + 2) * max_lines * 10UL;
     double const time_spent = stop - start;
 
-    Serial.print("total bits transferred: ");
+    Serial.print(F("total bits transferred: "));
     format_uint32_with_commas(total_bits, false);
-    Serial.print(" = ");
+    Serial.print(F(" = "));
     format_uint32_with_commas((strlen(fmt) + 2) * max_lines, false);
-    Serial.println(" bytes");
+    Serial.println(F(" bytes"));
 
-    Serial.print("total time spent: ");
+    Serial.print(F("total time spent: "));
     format_double_with_commas(time_spent / 1000000.0, 2, false);
-    Serial.println(" seconds");
+    Serial.println(F(" seconds"));
 
     double const bps = (double(total_bits) / time_spent) * 1000000.0;
     format_double_with_commas(bps, 2, false);
-    Serial.println(" bps transfer rate");
+    Serial.println(F(" bps transfer rate"));
 
     double const Bps = ((double(total_bits) / 8.0) / time_spent) * 1000000.0;
     format_double_with_commas(Bps, 2, false);
-    Serial.println(" BPS transfer rate");
+    Serial.println(F(" BPS transfer rate"));
 
     int const num_lines = get_num_lines(filename);
 
@@ -124,10 +123,7 @@ void setup() {
         String text = get_line(filename, line + 1);
         int line_num = atoi(text.c_str() + 5);
 
-        if ((line + 1) == line_num) {
-//            Serial.println(F(": passed"));
-        }
-        else {
+        if ((line + 1) != line_num) {
             text.trim();
             Serial.print(text);
             Serial.println(F(": failed"));

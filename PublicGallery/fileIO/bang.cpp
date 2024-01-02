@@ -46,6 +46,10 @@ String Bang::macro(char const *pcmd) {
     return send_and_recv('@', pcmd);
 }
 
+String Bang::serial(char const *ptext) {
+    return send_and_recv('#', ptext);
+}
+
 String Bang::compile_and_upload(char const *pcmd) {
     return send_and_recv('&', pcmd);
 }

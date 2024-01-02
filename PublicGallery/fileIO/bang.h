@@ -27,6 +27,7 @@ public:
 
     String exec(char const *pcmd);
     String macro(char const *pcmd);
+    String serial(char const *pcmd);
     String compile_and_upload(char const *pcmd);
 
     long write_file(char const *filename, char const * const lines[], int const num);
