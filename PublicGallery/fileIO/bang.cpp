@@ -73,7 +73,7 @@ long Bang::write_file(char const *filename, char const * const lines[], int cons
 
 void Bang::push_me_pull_you(Stream &str1, Stream &str2) {
     if (str1.available() >= 2) {
-        uint32_t const period = 20;
+        uint32_t const period = 5;
         uint32_t start = millis();
         while (millis() - start < period) {
             while (str1.available()) {

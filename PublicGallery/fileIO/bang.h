@@ -14,12 +14,13 @@
 
 class Bang {
 private:
+    // pointers to the cmd I/O stream and the optional serial output stream
     Stream *dbgstrm {nullptr};
     Stream *cmdstrm {nullptr};
 
 public:
+    // constructors
     Bang();
-
     Bang(Stream &cmd_strm);
     Bang(Stream &cmd_strm, Stream &dbg_strm);
 
