@@ -74,12 +74,14 @@ void setup() {
     char const *filename = "testing.txt";
     char text[128] = "line 1 ******************************************************************************************";
 
+    // Create the test file on the host machine
     create_file(filename, text);
 
     int const max_lines = 50;
 
     char const fmt[] = "line %d ******************************************************************************************";
 
+    // fill in a total of 50 lines containing 100 characters each
     double start = micros();
     for (int line=2; line <= max_lines; line++) {
         snprintf(text, sizeof(text), fmt, line);
@@ -87,6 +89,7 @@ void setup() {
     }
     double stop = micros();
 
+    // Calculate and display some statistics about the transfer
     uint32_t const total_bits = (strlen(fmt) + 2) * max_lines * 10UL;
     double const time_spent = stop - start;
 
@@ -104,10 +107,7 @@ void setup() {
     format_double_with_commas(bps, 2, false);
     Serial.println(F(" bps transfer rate"));
 
-    double const Bps = ((double(total_bits) / 8.0) / time_spent) * 1000000.0;
-    format_double_with_commas(Bps, 2, false);
-    Serial.println(F(" BPS transfer rate"));
-
+    // Read the number of lines back from the file and verify it
     int const num_lines = get_num_lines(filename);
 
     Serial.print(F("get_num_lines(...) returned: "));
@@ -119,6 +119,8 @@ void setup() {
     }
     Serial.println(F("the value that was expected"));
 
+    // Read the lines back from the file and verify them
+    Serial.println(F("Testing line contents..."));
     for (int line=0; line < num_lines; line++) {
         String text = get_line(filename, line + 1);
         int line_num = atoi(text.c_str() + 5);
