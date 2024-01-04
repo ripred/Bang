@@ -1,3 +1,9 @@
+[![Arduino CI](https://github.com/ripred/ArduinoCLI/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+<!-- [![Arduino-lint](https://github.com/ripred/Smooth/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Smooth/actions/workflows/arduino-lint.yml) -->
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ripred/ArduinoCLI/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/ripred/ArduinoCLI.svg?maxAge=3600)](https://github.com/ripred/ArduinoCLI/releases)
+
+
 # ArduinoCLI
 Make your Windows, Mac, or Linux host available as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it.
 
@@ -20,37 +26,35 @@ So far I have written and added the following sketches to the **[PublicGallery](
 <!-- &#160; -->
 ___
 ## Starting the Python Agent
+Note that the Python module pyserial must be installed to allow the Python Agent to open the virtual serial port to talk to the Arduino. If you do not have it installed you can install it using the command:
+```
+pip install pyserial
+```
 
-In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line:
+In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line. Replace 'COM3' with the COM port your Arduino is connected to
 
 #### For Windows Users:
 ```
-C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> runas /user:Administrator "cmd /c python3 -m arduino_exec.py COM3 2>&1"
-Waiting for a command from the Arduino...
+runas /user:Administrator "cmd /c python3 arduino_exec.py --port COM3 2>&1"
 ```
 
 Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the public gallery require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
 ```
-C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> cmd /c python3 -m arduino_exec.py COM3 2>&1
-Waiting for a command from the Arduino...
+python3 arduino_exec.py --port COM3 2>&1
 ```
 
 #### For Mac and Linux Users:
-```
-$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ sudo 2>&1 python3 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
-Waiting for a command from the Arduino...
-```
-
-Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
+Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port.
 
 ```
-$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ python3 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
-Waiting for a command from the Arduino...
+sudo 2>&1 python3 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
+```
+
+Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port.
+
+```
+python3 2>&1 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
 ```
 
 The `2>&1` term will ensure that all output is captured and returned to your Arduino including any output directed to `stderr` in addition to the normal output sent to `stdout`.
@@ -61,7 +65,7 @@ ___
 
 To use ArduinoCLI in your sketches, simply use `Serial.println( "!command" )` to send the command to the USB (COM) port used by your Arduino.
 
-**If you want to be able to use the Serial monitor separately from using ArduinoCLI** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to additionally use the Serial monitor.
+**If you want to be able to use the Serial monitor separately from using ArduinoCLI** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to continue to use the Serial monitor while the sketch is running.
 
 <!-- &#160; -->
 ___
