@@ -21,36 +21,30 @@ So far I have written and added the following sketches to the **[PublicGallery](
 ___
 ## Starting the Python Agent
 
-In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line:
+In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line. Replace 'COM3' with the COM port your Arduino is connected to
 
 #### For Windows Users:
 ```
-C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> runas /user:Administrator "cmd /c python3 arduino_exec.py --port COM3 2>&1"
-Waiting for a command from the Arduino...
+runas /user:Administrator "cmd /c python3 arduino_exec.py --port COM3 2>&1"
 ```
 
 Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the public gallery require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
 ```
-C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> python3 arduino_exec.py --port COM3 2>&1
-Waiting for a command from the Arduino...
+python3 arduino_exec.py --port COM3 2>&1
 ```
 
 #### For Mac and Linux Users:
-```
-$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ sudo 2>&1 python3 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
-Waiting for a command from the Arduino...
-```
-
-Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
+Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port.
 
 ```
-$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ python3 2>&1 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
-Waiting for a command from the Arduino...
+sudo 2>&1 python3 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
+```
+
+Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port.
+
+```
+python3 2>&1 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
 ```
 
 The `2>&1` term will ensure that all output is captured and returned to your Arduino including any output directed to `stderr` in addition to the normal output sent to `stdout`.
