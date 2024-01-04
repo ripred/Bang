@@ -1,3 +1,9 @@
+[![Arduino CI](https://github.com/ripred/ArduinoCLI/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+<!-- [![Arduino-lint](https://github.com/ripred/Smooth/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Smooth/actions/workflows/arduino-lint.yml) -->
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ripred/ArduinoCLI/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/ripred/ArduinoCLI.svg?maxAge=3600)](https://github.com/ripred/ArduinoCLI/releases)
+
+
 # ArduinoCLI
 Make your Windows, Mac, or Linux host available as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it.
 
