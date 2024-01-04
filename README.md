@@ -26,7 +26,7 @@ In order to allow your Arduino to execute all programs that are requested, as we
 #### For Windows Users:
 ```
 C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> runas /user:Administrator "cmd /c python3 -m arduino_exec.py COM3 2>&1"
+C:\> runas /user:Administrator "cmd /c python3 arduino_exec.py --port COM3 2>&1"
 Waiting for a command from the Arduino...
 ```
 
@@ -34,14 +34,14 @@ Note that if you don't plan on executing any commands that require the extra adm
 
 ```
 C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> cmd /c python3 -m arduino_exec.py COM3 2>&1
+C:\> cmd /c python3 arduino_exec.py --port COM3 2>&1
 Waiting for a command from the Arduino...
 ```
 
 #### For Mac and Linux Users:
 ```
 $ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ sudo 2>&1 python3 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
+$ sudo 2>&1 python3 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
 
@@ -49,7 +49,7 @@ Note that if you don't plan on executing any commands that require the extra roo
 
 ```
 $ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ python3 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
+$ python3 2>&1 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
 Waiting for a command from the Arduino...
 ```
 
