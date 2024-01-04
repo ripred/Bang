@@ -20,6 +20,10 @@ So far I have written and added the following sketches to the **[PublicGallery](
 <!-- &#160; -->
 ___
 ## Starting the Python Agent
+Note that the Python module pyserial must be installed to allow the Python Agent to open the virtual serial port to talk to the Arduino. If you do not have it installed you can install it using the command:
+```
+pip install pyserial
+```
 
 In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line. Replace 'COM3' with the COM port your Arduino is connected to
 
