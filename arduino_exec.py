@@ -5,16 +5,17 @@ arduino_exec.py
 communication with Arduino boards, enabling the execution of built-in
 commands, macros, and compilation/upload of Arduino code.
 
-see the project repository for full details, installation, and use:
+See the project repository for full details, installation, and use:
 https://github.com/ripred/ArduinoCLI
-
 
 @author Trent M. Wyatt
 @date 2023-12-10
-@version 1.2
+@version 1.3
 
 Release Notes:
-1.2 - added support for compiling, uploading and replacing the
+1.3 - added support for serial output
+
+1.2 - added support for compiling, uploading, and replacing the
       functionality in the current Arduino program flash memory.
 
 1.1 - added support for macro functionality.
@@ -40,18 +41,17 @@ before using the compile and upload functionality.
 For Windows Users
 
 C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> cmd /c python -m arduino_exec.py COM3 2>&1
+C:\> cmd /c python -m arduino_exec.py -p COM3 2>&1
 Waiting for a command from the Arduino...
-```
 
 For Mac and Linux Users:
-```
 $ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ python 2>&1 -m arduino_exec.py /dev/cu.usbserial-A4016Z9Q
-
+$ python3 -m arduino_exec.py -p /dev/cu.usbserial-A4016Z9Q
+Waiting for a command from the Arduino...
 """
 
 import subprocess
+import argparse
 import logging
 import signal
 import serial
@@ -67,11 +67,22 @@ macros = {}
 # The logger
 logger = None
 
-# The name of the port
-port_name = ""
-
 # The serial port
 cmd_serial = None
+
+
+def parse_args():
+    """
+    @brief Parse command line arguments.
+
+    Parses the command line arguments using argparse.
+
+    @return argparse.Namespace: The parsed arguments.
+    """
+    parser = argparse.ArgumentParser(description='ArduinoCLI Python Agent')
+    parser.add_argument('-p', '--port', required=True, help='Serial port name')
+    parser.add_argument('-b', '--baud', type=int, default=38400, help='Baud rate')
+    return parser.parse_args()
 
 
 def setup_logger():
@@ -88,51 +99,14 @@ def setup_logger():
     logging.basicConfig(level=logging.ERROR)  # Set the logging level to ERROR
 
     file_handler = logging.FileHandler(
-            os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                         'arduino_exec.log'))
+        os.path.join(os.path.abspath(os.path.dirname(__file__)),
+                     'arduino_exec.log'))
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
 
     logger = logging.getLogger(__name__)
     logger.setLevel(logging.ERROR)  # Set the logging level to ERROR
     logger.addHandler(file_handler)
-
-
-def get_args():
-    """
-    @brief Get the serial port from the command line.
-
-    Checks if a serial port argument is provided in the command line.
-    Also, handles --help or -h options to display usage information.
-
-    @return str: The serial port obtained from the command line.
-    """
-    global port_name
-
-    if "--help" in sys.argv or "-h" in sys.argv:
-        print("Usage: python arduino_exec.py <COM_port>")
-        print("\nOptions:")
-        print("  --help, -h   : Show this help message and exit.")
-        print("  ! <command>  : Execute a command on the "
-              + "host machine and get back any output.")
-        print("  @ <macro>    : Execute a pre-registered command "
-              + "on the host machine using a macro name.")
-        print("  & <folder>   : Compile and upload the Arduino "
-              + "code in the specified folder.")
-        print("\nMacro Management Commands:")
-        print("  @list_macros  : List all registered macros.")
-        print("  @add_macro    : Add a new macro (Usage: "
-              + "@add_macro:<name>:<command>).")
-        print("  @delete_macro : Delete a macro (Usage: "
-              + "@delete_macro:<name>).")
-        exit(0)
-
-    if len(sys.argv) <= 1:
-        print("Usage: python arduino_exec.py <COM_port>")
-        exit(-1)
-
-    port_name = sys.argv[1]
-    return port_name
 
 
 def sigint_handler(signum, frame):
@@ -162,13 +136,14 @@ def set_signal_handler():
     signal.signal(signal.SIGINT, sigint_handler)
 
 
-def open_serial_port(port):
+def open_serial_port(port, baud):
     """
     @brief Open the specified serial port.
 
     Attempts to open the specified serial port with a timeout of 1 second.
 
     @param port: The serial port to open.
+    @param baud: The baud rate.
 
     @return serial.Serial: The opened serial port.
 
@@ -177,7 +152,12 @@ def open_serial_port(port):
     """
     global cmd_serial
 
-    cmd_serial = serial.Serial(port, 9600, timeout=0.03)
+    try:
+        cmd_serial = serial.Serial(port, baud, timeout=0.030)
+    except Exception as e:
+        result = f"Failed to open the serial port: '{port}'. {str(e)}"
+        print(result)
+        exit(-1)
 
     if not cmd_serial:
         print(f"Could not open the serial port: '{port}'")
@@ -335,8 +315,7 @@ def compile_and_upload(folder):
     # Check if the folder contains a matching .ino file
     ino_file = os.path.join(folder, f"{os.path.basename(folder)}.ino")
     if not os.path.isfile(ino_file):
-        return
-    f"Error: Folder '{folder}' does not contain a matching .ino file."
+        return f"Error: Folder '{folder}' does not contain a matching .ino file."
 
     # Define constant part of the compile and upload commands
     PORT_NAME = '/dev/cu.usbserial-41430'
@@ -353,8 +332,7 @@ def compile_and_upload(folder):
     upload_result = execute_command(upload_command)
     print(f"executed: {upload_command}\nresult: {upload_result}")
 
-    result = f"Compile Result:\n{compile_result}\n"
-    + "Upload Result:\n{upload_result}"
+    result = f"Compile Result:\n{compile_result}\n" + "Upload Result:\n{upload_result}"
 
     return result
 
@@ -370,8 +348,9 @@ def run():
     global macros
     global cmd_serial
 
-    port = get_args()
-    open_serial_port(port)
+    args = parse_args()
+    cmd_serial = open_serial_port(args.port, args.baud)
+
     set_signal_handler()
     macros = load_macros()
     setup_logger()
@@ -389,7 +368,6 @@ def run():
             continue
 
         logtext = f"Received command from Arduino: '{arduino_command}'"
-#       print(logtext)
         logger.info(logtext)
 
         cmd_id = arduino_command[0]     # Extract the first character
@@ -405,17 +383,21 @@ def run():
         elif cmd_id == '@':
             if command in macros:
                 result = execute_command(macros[command])
+
             elif command == "list_macros":
                 macro_list = [f'    "{macro}": "{macros[macro]}"'
                               for macro in macros]
                 result = "Registered Macros:\n" + "\n".join(macro_list)
+
             elif command.startswith("add_macro:"):
                 _, name, command = command.split(":")
                 create_macro(name, command, macros)
                 result = f"Macro '{name}' created with command '{command}'"
+
             elif command.startswith("delete_macro:"):
                 _, name = command.split(":")
                 result = delete_macro(name, macros)
+
             else:
                 result = f"unrecognized macro command: @{command}"
                 print(result + '\n')
@@ -427,12 +409,18 @@ def run():
             # Dispatch the compile and avrdude upload
             result = compile_and_upload(command)
 
+        # Check if the command is a Serial Monitor output line
+        elif cmd_id == '#':
+            # print out the received message
+            result = command
+
         else:
             result = f"unrecognized cmd_id: {cmd_id}"
             print(result + '\n')
             cmd_serial.write(result.encode('utf-8') + b'\n')
             continue
 
+        # output the results to the display and to the serial port
         for line in result.split('\n'):
             print(line + '\n')
             cmd_serial.write(line.encode('utf-8') + b'\n')

@@ -15,8 +15,8 @@ SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
 void setup() {
     Serial.begin(115200);
-    command_serial.begin(9600);
-    command_serial.println(F("echo \"Hello Arduino!\""));
+    command_serial.begin(38400);
+    command_serial.println("!echo \"Hello Arduino!\"");
 }
 
 void loop() {
