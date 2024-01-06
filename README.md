@@ -21,7 +21,7 @@ So far I have written and added the following sketches to the **[PublicGallery](
 -   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host machine to go to sleep, reboot, or shutdown
 -   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/pjlink/pjlink.ino)** sketch for an example of invoking the `pjlink` command line tool for controlling and retrieving information from projectors and other PJLINK capable devices
 -   **[hue.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/hue/hue.ino)** example sketch for controlling the lights in your home via the Hue Bridge using 'curl' commands.
--   **[fileIO.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/fileIO/fileIO.ino)** example sketch for creating, reading, writing, and deleting text files including support for random access insert and read line by number, get number of lines in a file, etc.
+-   **[fileIO.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/fileIO/fileIO.ino)** example sketch for creating, reading, writing, and deleting text files including support for random access insert and read line by number, get number of lines in a file, etc. Perfect for logging.
 
 <!-- &#160; -->
 ___
