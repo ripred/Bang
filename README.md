@@ -1,28 +1,28 @@
-[![Arduino CI](https://github.com/ripred/ArduinoCLI/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
-[![Arduino-lint](https://github.com/ripred/ArduinoCLI/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/ArduinoCLI/actions/workflows/arduino-lint.yml)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ripred/ArduinoCLI/blob/master/LICENSE)
-[![GitHub release](https://img.shields.io/github/release/ripred/ArduinoCLI.svg?maxAge=3600)](https://github.com/ripred/ArduinoCLI/releases)
+[![Arduino CI](https://github.com/ripred/Bang/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+[![Arduino-lint](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ripred/Bang/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/ripred/Bang.svg?maxAge=3600)](https://github.com/ripred/Bang/releases)
 
 
-# ArduinoCLI
+# Bang
 ## Arduino based command line interface.
 Make your Windows, Mac, or Linux host available as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it.
 
 Play, pause, and stop music files on the host, use the PC's large disk drive for Arduino accessible storage, get the current date & time, issue curl commands to post or retrieve anything on the web or to control your local Hue Bridge and Lights, retrieve the current weather, tell the host machine to reboot, check if the host machine is alseep. The possibilities are endless! All using the simplest of Arduino's with no additional modules or connections needed besides the Serial-USB communications.
 
-So far I have written and added the following sketches to the **[examples](https://github.com/ripred/ArduinoCLI/tree/main/examples)** folder:
+So far I have written and added the following sketches to the **[examples](https://github.com/ripred/Bang/tree/main/examples)** folder:
 
--   **[ArduinoCLI.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/arduinoCLI/arduinoCLI.ino)** example sketch that lets you send any command from the serial monitor window and receive the response.
--   **[datetime.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/datetime/datetime.ino)** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
--   **[fileIO.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/fileIO/fileIO.ino)** example sketch for creating, reading, writing, and deleting text files including support for random access insert and read line by number, get number of lines in a file, etc. Perfect for logging.
--   **[power.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host machine to go to sleep, reboot, or shutdown
--   **[hue.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/hue/hue.ino)** example sketch for controlling the lights in your home via the Hue Bridge using 'curl' commands.
--   **[openWeatherMap.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/openWeatherMap/openWeatherMap.ino)** sketch to retrieve the city name, latitude, longitude, current conditions, temperature, 'feels like' temperature, humidity, wind speed, and wind direction for any zip code.
--   **[macFreeDiskSpace.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/macFreeDiskSpace/macFreeDiskSpace.ino)** sketch to monitor and blink an LED if your Mac/Linux disk drive falls below a certain amount of free space
--   **[macPlayMusic.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/macPlayMusic/macPlayMusic.ino)** sketch to play any song in your music library when your Arduino sketch tells it to play it
--   **[macSpeechSynthesizer.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/macSpeechSynthesizer/macSpeechSynthesizer.ino)** sketch to make your Mac speak anything your Arduino tells it to
--   **[isMacAsleep.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not!
--   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/examples/pjlink/pjlink.ino)** sketch for an example of invoking the `pjlink` command line tool for controlling and retrieving information from projectors and other PJLINK capable devices
+-   **[Bang.ino](https://github.com/ripred/Bang/blob/main/examples/arduinoCLI/arduinoCLI.ino)** example sketch that lets you send any command from the serial monitor window and receive the response.
+-   **[datetime.ino](https://github.com/ripred/Bang/blob/main/examples/datetime/datetime.ino)** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
+-   **[fileIO.ino](https://github.com/ripred/Bang/blob/main/examples/fileIO/fileIO.ino)** example sketch for creating, reading, writing, and deleting text files including support for random access insert and read line by number, get number of lines in a file, etc. Perfect for logging.
+-   **[power.ino](https://github.com/ripred/Bang/blob/main/examples/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host machine to go to sleep, reboot, or shutdown
+-   **[hue.ino](https://github.com/ripred/Bang/blob/main/examples/hue/hue.ino)** example sketch for controlling the lights in your home via the Hue Bridge using 'curl' commands.
+-   **[openWeatherMap.ino](https://github.com/ripred/Bang/blob/main/examples/openWeatherMap/openWeatherMap.ino)** sketch to retrieve the city name, latitude, longitude, current conditions, temperature, 'feels like' temperature, humidity, wind speed, and wind direction for any zip code.
+-   **[macFreeDiskSpace.ino](https://github.com/ripred/Bang/blob/main/examples/macFreeDiskSpace/macFreeDiskSpace.ino)** sketch to monitor and blink an LED if your Mac/Linux disk drive falls below a certain amount of free space
+-   **[macPlayMusic.ino](https://github.com/ripred/Bang/blob/main/examples/macPlayMusic/macPlayMusic.ino)** sketch to play any song in your music library when your Arduino sketch tells it to play it
+-   **[macSpeechSynthesizer.ino](https://github.com/ripred/Bang/blob/main/examples/macSpeechSynthesizer/macSpeechSynthesizer.ino)** sketch to make your Mac speak anything your Arduino tells it to
+-   **[isMacAsleep.ino](https://github.com/ripred/Bang/blob/main/examples/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not!
+-   **[pjlink.ino](https://github.com/ripred/Bang/blob/main/examples/pjlink/pjlink.ino)** sketch for an example of invoking the `pjlink` command line tool for controlling and retrieving information from projectors and other PJLINK capable devices
 
 <!-- &#160; -->
 ___
@@ -62,19 +62,19 @@ The `2>&1` term will ensure that all output is captured and returned to your Ard
 
 <!-- &#160; -->
 ___
-## Using ArduinoCLI in your Arduino sketches
+## Using Bang in your Arduino sketches
 
-To use ArduinoCLI in your sketches, simply use `Serial.println( "!command" )` to send the command to the USB (COM) port used by your Arduino.
+To use Bang in your sketches, simply use `Serial.println( "!command" )` to send the command to the USB (COM) port used by your Arduino.
 
 For example, to tell the host to echo a string to the display you could issue the call:
 
 `Serial.println("!echo 'hello, arduino!'");`
 
-**If you want to be able to use the Serial monitor separately from using ArduinoCLI** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to continue to use the Serial monitor while the sketch is running.
+**If you want to be able to use the Serial monitor separately from using Bang** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to continue to use the Serial monitor while the sketch is running.
 
 <!-- &#160; -->
 ___
-## The Future Uses of ArduinoCLI
+## The Future Uses of Bang
 
 The following are some of the ideas I have had that this technique can be used for:
 
