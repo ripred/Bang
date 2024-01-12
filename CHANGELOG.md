@@ -1,10 +1,13 @@
-# Change Log ArduinoCLI
+# Change Log Bang
 
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+##
+- Changed name to Bang 
+- Converted to Arduino library
 
 ## [1.3.1] - 2024-01-04
 - add Arduino build-CI
