@@ -6,6 +6,7 @@
  * 
  */
 
+#include <Arduino.h>
 #include <SoftwareSerial.h>
 #include <Bang.h>
 
