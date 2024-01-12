@@ -12,7 +12,7 @@ Play, pause, and stop music files on the host, use the PC's large disk drive for
 
 So far I have written and added the following sketches to the **[examples](https://github.com/ripred/Bang/tree/main/examples)** folder:
 
--   **[Bang.ino](https://github.com/ripred/Bang/blob/main/examples/arduinoCLI/arduinoCLI.ino)** example sketch that lets you send any command from the serial monitor window and receive the response.
+-   **[bang.ino](https://github.com/ripred/Bang/blob/main/examples/bang/bang.ino)** example sketch that lets you send any command from the serial monitor window and receive the response.
 -   **[datetime.ino](https://github.com/ripred/Bang/blob/main/examples/datetime/datetime.ino)** sketch to retrieve the current date and time from Windows, Mac, and Linux hosts!
 -   **[fileIO.ino](https://github.com/ripred/Bang/blob/main/examples/fileIO/fileIO.ino)** example sketch for creating, reading, writing, and deleting text files including support for random access insert and read line by number, get number of lines in a file, etc. Perfect for logging.
 -   **[power.ino](https://github.com/ripred/Bang/blob/main/examples/power/power.ino)** sketch for Windows, Mac, and Linux to tell the host machine to go to sleep, reboot, or shutdown
