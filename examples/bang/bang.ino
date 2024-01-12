@@ -14,11 +14,8 @@
 
 SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
-// class wrapper for the ArduinoCLI api so far:
+// class wrapper for the Bang api so far:
 Bang bang(command_serial, Serial);
-
-
-String cmd = "";
 
 void setup() {
     Serial.begin(115200);
