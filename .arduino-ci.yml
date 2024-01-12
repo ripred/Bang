@@ -10,6 +10,7 @@ platforms:
       flags:
     lib_deps:
       - libraries/SoftwareSerial
+      - libraries/ArduinoJSON
 
 packages:
   rp2040:rp2040:
