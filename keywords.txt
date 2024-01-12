@@ -1,7 +1,7 @@
 ########################################################
-# Syntax Coloring Map for ArduinoCLI Project
+# Syntax Coloring Map for Bang Project
 ########################################################
-# https://github.com/ripred/ArduinoCLI
+# https://github.com/ripred/Bang
 ########################################################
 # Datatypes (KEYWORD1)
 ########################################################
@@ -20,5 +20,3 @@ compile_and_upload KEYWORD2
 ########################################################
 # Constants (LITERAL1)
 ########################################################
-
-
