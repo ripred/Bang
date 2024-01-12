@@ -24,14 +24,14 @@ void setup() {
     Serial.begin(115200);
     command_serial.begin(9600);
 
-    Serial.println(F("\nexecutable lines should start with a bang ! character as in:"));
-    Serial.println(F("    !echo hello, arduino!"));
+    bang.serial("\nexecutable lines should start with a bang ! character as in:");
+    bang.serial("    !echo hello, arduino!");
 
-    Serial.println(F("macro lines should start with an @ character as in:"));
-    Serial.println(F("    @list_macros"));
+    bang.serial("macro lines should start with an @ character as in:");
+    bang.serial("    @list_macros");
 
-    Serial.println(F("'compile and reload' using the & character as in:"));
-    Serial.println(F("    &blink\n"));
+    bang.serial("'compile and reload' using the & character as in:");
+    bang.serial("    &blink\n");
 }
 
 void loop() {
