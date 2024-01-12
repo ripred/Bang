@@ -33,12 +33,12 @@
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
-// #include "Smooth.h"
+#include "Bang.h"
 
 
 unittest_setup()
 {
-  fprintf(stderr, "ArduinoCLI Platform\n");
+  fprintf(stderr, "Bang Platform\n");
 }
 
 
