@@ -9,7 +9,7 @@ platforms:
       warnings:
       flags:
     lib_deps:
-      - SoftwareSerial
+      - libraries/SoftwareSerial
 
 packages:
   rp2040:rp2040:
