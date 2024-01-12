@@ -9,7 +9,7 @@
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 #include <Stream.h>
-#include "bang.h"
+#include "Bang.h"
 
 #define  RX_PIN     7
 #define  TX_PIN     8

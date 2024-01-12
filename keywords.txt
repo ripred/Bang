@@ -1,0 +1,23 @@
+########################################################
+# Syntax Coloring Map for ArduinoCLI Project
+########################################################
+# https://github.com/ripred/ArduinoCLI
+########################################################
+# Datatypes (KEYWORD1)
+########################################################
+Bang	KEYWORD1
+
+########################################################
+# Methods, Functions, and Globals (KEYWORD2)
+########################################################
+Bang	KEYWORD2
+exec	KEYWORD2
+macro	KEYWORD2
+load	KEYWORD2
+serial	KEYWORD2
+compile_and_upload KEYWORD2
+
+########################################################
+# Constants (LITERAL1)
+########################################################
+
