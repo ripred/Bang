@@ -11,6 +11,10 @@ platforms:
     lib_deps:
       - libraries/SoftwareSerial
       - libraries/ArduinoJson
+  uno:
+    lib_deps:
+      - libraries/SoftwareSerial
+      - libraries/ArduinoJson
 
 packages:
   rp2040:rp2040:
@@ -19,9 +23,6 @@ packages:
 compile:
   platforms:
     - uno
-    lib_deps:
-      - libraries/SoftwareSerial
-      - libraries/ArduinoJson
 #    - m4
 #    - esp32
 #    - esp8266
