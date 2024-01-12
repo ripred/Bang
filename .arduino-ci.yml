@@ -19,6 +19,9 @@ packages:
 compile:
   platforms:
     - uno
+    lib_deps:
+      - libraries/SoftwareSerial
+      - libraries/ArduinoJson
 #    - m4
 #    - esp32
 #    - esp8266
