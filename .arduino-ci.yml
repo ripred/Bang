@@ -8,20 +8,17 @@ platforms:
         - ARDUINO_ARCH_RP2040
       warnings:
       flags:
+    lib_deps:
+      - SoftwareSerial
 
 packages:
   rp2040:rp2040:
     url: https://github.com/earlephilhower/arduino-pico/releases/download/global/package_rp2040_index.json
 
 compile:
-  # Choosing to run compilation tests on 5 different Arduino platforms
   platforms:
     - uno
-    # - due
-    # - zero
-    # - leonardo
     - m4
     - esp32
     - esp8266
-    # - mega2560
     - rpipico
