@@ -71,7 +71,7 @@ For example, to tell the host to echo a string to the display you could issue th
 
 `Serial.println("!echo 'hello, arduino!'");`
 
-**Update:** With the changes to a library and the name there is now a `Bang` data type that let's you easily issue commands, macros, serial output, or dynmically compile and load new code (WIP).
+**Update:** With the changes to a library and the name there is now a `Bang` data type that let's you easily issue commands, macros, serial output, or dynamically compile and load new code (WIP).
 
 To use the class include the Bang.h header file in your project and declare the one (or two) Stream objects that it will be working with for issuing commands and for Serial output respecitively:
 ```
