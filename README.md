@@ -1,14 +1,15 @@
-[![Arduino CI](https://github.com/ripred/Bang/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+<!-- [![Arduino CI](https://github.com/ripred/Bang/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci) -->
 [![Arduino-lint](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ripred/Bang/blob/master/LICENSE)
 [![GitHub release](https://img.shields.io/github/release/ripred/Bang.svg?maxAge=3600)](https://github.com/ripred/Bang/releases)
 
 
-# Bang
+# The Bang Arduino Library
 ## Arduino based command line interface.
-Make your Windows, Mac, or Linux host available as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it.
+## (formerly known as ArduinoCLI)
+Make your Windows, Mac, or Linux host act as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it!
 
-Play, pause, and stop music files on the host, use the PC's large disk drive for Arduino accessible storage, get the current date & time, issue curl commands to post or retrieve anything on the web or to control your local Hue Bridge and Lights, retrieve the current weather, tell the host machine to reboot, check if the host machine is alseep. The possibilities are endless! All using the simplest of Arduino's with no additional modules or connections needed besides the Serial-USB communications.
+Play, pause, and stop music files on the host, use the PC's large disk drive for Arduino accessible storage, get the current date & time, issue curl commands to post or retrieve anything on the web or to control your local intranet Hue Bridge and Lights, retrieve the current weather, tell the host machine to reboot, check if the host machine is asleep. The possibilities are endless! All using the simplest of Arduino's with no additional modules or connections needed besides the Serial-USB communications. 😃
 
 So far I have written and added the following sketches to the **[examples](https://github.com/ripred/Bang/tree/main/examples)** folder:
 
@@ -69,6 +70,45 @@ To use Bang in your sketches, simply use `Serial.println( "!command" )` to send 
 For example, to tell the host to echo a string to the display you could issue the call:
 
 `Serial.println("!echo 'hello, arduino!'");`
+
+**Update:** With the changes to a library and the name there is now a `Bang` data type that let's you easily issue commands, macros, serial output, or dynamically compile and load new code (WIP).
+
+To use the class include the Bang.h header file in your project and declare the one (or two) Stream objects that it will be working with for issuing commands (and for Serial output) respectively:
+```
+#include <Arduino.h>
+#include <SoftwareSerial.h>
+#include <Bang.h>
+
+// (Optionally) declare a separate Stream object to talk to so we can still use the Serial monitor window:
+#define  RX_PIN   7
+#define  TX_PIN   8
+SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
+
+// class wrapper for the Bang api when just using the Serial port (without an additional FTDI module):
+// Bang bang(Serial);
+
+// class wrapper for the Bang api when using an additional FTDI module:
+Bang bang(command_serial, Serial);
+
+void setup() {
+    Serial.begin(115200);
+    command_serial.begin(38400);
+
+    bang.serial("\nexecutable lines should start with a bang ! character as in:");
+    bang.serial("    !echo hello, arduino!");
+
+    bang.serial("macro lines should start with an @ character as in:");
+    bang.serial("    @list_macros");
+
+    bang.serial("'compile and reload' using the & character as in:");
+    bang.serial("    &blink\n");
+}
+
+void loop() {
+    // allow the user to talk directly to the host via the Serial monitor window:
+    bang.sync();
+}
+```
 
 **If you want to be able to use the Serial monitor separately from using Bang** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to continue to use the Serial monitor while the sketch is running.
 
