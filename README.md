@@ -71,6 +71,45 @@ For example, to tell the host to echo a string to the display you could issue th
 
 `Serial.println("!echo 'hello, arduino!'");`
 
+**Update:** With the changes to a library and the name there is now a `Bang` data type that let's you easily issue commands, macros, serial output, or dynmically compile and load new code (WIP).
+
+To use the class include the Bang.h header file in your project and declare the one (or two) Stream objects that it will be working with for issuing commands and for Serial output respecitively:
+```
+#include <Arduino.h>
+#include <SoftwareSerial.h>
+#include <Bang.h>
+
+// (Optionally) declare a separate Stream object to talk to so we can still use the Serial monitor window:
+#define  RX_PIN   7
+#define  TX_PIN   8
+SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
+
+// class wrapper for the Bang api when just using the Serial port (without an additional FTDI module):
+// Bang bang(Serial);
+
+// class wrapper for the Bang api when using an additional FTDI module:
+Bang bang(command_serial, Serial);
+
+void setup() {
+    Serial.begin(115200);
+    command_serial.begin(9600);
+
+    bang.serial("\nexecutable lines should start with a bang ! character as in:");
+    bang.serial("    !echo hello, arduino!");
+
+    bang.serial("macro lines should start with an @ character as in:");
+    bang.serial("    @list_macros");
+
+    bang.serial("'compile and reload' using the & character as in:");
+    bang.serial("    &blink\n");
+}
+
+void loop() {
+    // allow the user to talk directly to the host via the Serial monitor window:
+    bang.sync();
+}
+```
+
 **If you want to be able to use the Serial monitor separately from using Bang** then you will need to connect an FTDI USB-ttl adapter to your Arduino and specify its COM port in the arduino_exec.py source file instead of the port that your Arduino uses. Most of the example sketches show the use of an FTDI USB-ttl adapter in their source. You do not *have* to use an FTDI adapter unless you want to continue to use the Serial monitor while the sketch is running.
 
 <!-- &#160; -->
