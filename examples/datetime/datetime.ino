@@ -5,32 +5,32 @@
  * to your Arduino.
  */
 
+#include <Arduino.h>
 #include <SoftwareSerial.h>
+#include <Bang.h>
 
-#define  RX_PIN     7
-#define  TX_PIN     8
+#define  RX_PIN   7
+#define  TX_PIN   8
 
-// Software Serial object to send the
-// commands to the Python Agent
 SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
 
-// Define ONLY ONE of the following
-//#define WINDOWS
-#define MAC
+// class wrapper for the Bang api so far.
+// This declaration uses both the Serial port and the FTDI serial port:
+Bang bang(command_serial, Serial);
+
+// This declaration uses only the Serial port but then we cannot use the Serial Monitor:
+//Bang bang(Serial);
+
+#define    WINDOWS_CMD    "echo %DATE:~10,4%-%DATE:~4,2%-%DATE:~7,2% %TIME:~0,2%:%TIME:~3,2%:%TIME:~6,2%"
+#define    MAC_CMD        "date '+%Y-%m-%d %H:%M:%S'"
 
 void setup() {
     Serial.begin(115200);
     command_serial.begin(9600);
 
-#ifdef WINDOWS
-    command_serial.println(F("!echo %DATE:~10,4%-%DATE:~4,2%-%DATE:~7,2% %TIME:~0,2%:%TIME:~3,2%:%TIME:~6,2%"));
-#endif
-
-#ifdef MAC
-    command_serial.println(F("!date '+%Y-%m-%d %H:%M:%S'"));
-#endif
-
-    String response = command_serial.readString();
+    // Un-comment one of the following depending on your operating system:
+    //String response = bang.exec(WINDOWS_CMD);
+    String response = bang.exec(MAC_CMD);
     response.trim();
 
     char const *datetime = response.c_str();
