@@ -13,9 +13,9 @@ Bang	KEYWORD1
 Bang	KEYWORD2
 exec	KEYWORD2
 macro	KEYWORD2
-load	KEYWORD2
 serial	KEYWORD2
 compile_and_upload KEYWORD2
+sync	KEYWORD2
 
 ########################################################
 # Constants (LITERAL1)
