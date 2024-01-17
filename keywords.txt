@@ -15,6 +15,9 @@ exec	KEYWORD2
 macro	KEYWORD2
 serial	KEYWORD2
 compile_and_upload KEYWORD2
+send_and_recv	KEYWORD2
+write_file	KEYWORD2
+push_me_pull_you	KEYWORD2
 sync	KEYWORD2
 
 ########################################################
