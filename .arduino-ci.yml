@@ -8,13 +8,6 @@ platforms:
         - ARDUINO_ARCH_RP2040
       warnings:
       flags:
-    lib_deps:
-      - libraries/SoftwareSerial
-      - libraries/ArduinoJson
-  uno:
-    lib_deps:
-      - libraries/SoftwareSerial
-      - libraries/ArduinoJson
 
 packages:
   rp2040:rp2040:
@@ -27,3 +20,6 @@ compile:
 #    - esp32
 #    - esp8266
 #    - rpipico
+  libraries:
+    - "SoftwareSerial"
+    - "ArduinoJson"
