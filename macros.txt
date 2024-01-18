@@ -1,3 +1,4 @@
 {
-    "sayhi": "echo 'hello, Arduino'"
+    "sayhi": "echo 'hello, Arduino'",
+    "speak": "say hello arduino."
 }

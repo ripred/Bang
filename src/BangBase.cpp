@@ -77,7 +77,7 @@ void Bang::push_me_pull_you(Stream &str1, Stream &str2) {
         uint32_t start = millis();
         while (millis() - start < period) {
             while (str1.available()) {
-                str2.println(str1.readString());
+                str2.print(str1.readString());
             }
         }
     }

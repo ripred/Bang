@@ -180,12 +180,12 @@ def execute_command(command):
 
     @return str: The output of the command or an error message.
     """
-    print(f"Executing: {command}")  # Output for the user
+#   print(f"Executing: {command}")  # Output for the user
 
     try:
         result = subprocess.check_output(command, shell=True,
-                                         stderr=subprocess.STDOUT)
-        return result.decode('utf-8')
+                                         stderr=subprocess.STDOUT, text=True)
+        return result.strip()
     except subprocess.CalledProcessError as e:
         errtxt = f"Error executing command: {e}"
         logger.error(errtxt)
@@ -364,17 +364,17 @@ def run():
             prompted = True
 
         arduino_command = cmd_serial.readline().decode('utf-8').strip()
-        arduino_command = arduino_command.strip()
 
         if not arduino_command:
             continue
 
         logtext = f"Received command from Arduino: '{arduino_command}'"
-        print(logtext)
+#       print(logtext)
         logger.info(logtext)
 
         cmd_id = arduino_command[0]     # Extract the first character
         command = arduino_command[1:]   # Extract the remainder of the command
+        command = command.strip()
         result = ""
 
         # Check if the command is an execute command:
@@ -424,8 +424,12 @@ def run():
             continue
 
         # output the results to the display and to the serial port
-        for line in result.split('\n'):
-            print(line + '\n')
+        lines = result.split('\n')
+        if lines and not lines[-1].strip():
+            lines.pop()  # Remove the last line
+
+        for line in lines:
+            print(line + '\n', end="")
             cmd_serial.write(line.encode('utf-8') + b'\n')
 
         prompted = False
