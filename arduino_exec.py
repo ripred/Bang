@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 """
 arduino_exec.py
 
@@ -98,9 +99,10 @@ def setup_logger():
     # Set up logging configuration
     logging.basicConfig(level=logging.ERROR)  # Set the logging level to ERROR
 
+    file_name = 'bang.log'
     file_handler = logging.FileHandler(
         os.path.join(os.path.abspath(os.path.dirname(__file__)),
-                     'arduino_exec.log'))
+                     file_name))
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
     file_handler.setFormatter(formatter)
 
@@ -368,6 +370,7 @@ def run():
             continue
 
         logtext = f"Received command from Arduino: '{arduino_command}'"
+        print(logtext)
         logger.info(logtext)
 
         cmd_id = arduino_command[0]     # Extract the first character
