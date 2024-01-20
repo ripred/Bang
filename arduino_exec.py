@@ -142,7 +142,7 @@ def open_serial_port(port, baud):
     """
     @brief Open the specified serial port.
 
-    Attempts to open the specified serial port with a timeout of 1 second.
+    Attempts to open the specified serial port with a timeout of 30 milliseconds.
 
     @param port: The serial port to open.
     @param baud: The baud rate.
@@ -357,13 +357,12 @@ def run():
     macros = load_macros()
     setup_logger()
 
-    prompted = False
     while True:
-        if not prompted:
-            print("Waiting for a command from the Arduino...")
-            prompted = True
-
-        arduino_command = cmd_serial.readline().decode('utf-8').strip()
+        try:
+            arduino_command = cmd_serial.readline().decode('utf-8').strip()
+        except Exception as e:
+            logger.error(f"An unexpected error occurred: {e}")
+            continue
 
         if not arduino_command:
             continue
@@ -414,7 +413,6 @@ def run():
 
         # Check if the command is a Serial Monitor output line
         elif cmd_id == '#':
-            # print out the received message
             result = command
 
         else:
@@ -429,10 +427,8 @@ def run():
             lines.pop()  # Remove the last line
 
         for line in lines:
-            print(line + '\n', end="")
+            print(line)
             cmd_serial.write(line.encode('utf-8') + b'\n')
-
-        prompted = False
 
 
 if __name__ == '__main__':
