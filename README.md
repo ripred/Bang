@@ -92,7 +92,7 @@ void setup() {
     Serial.begin(115200);
     command_serial.begin(38400);
 
-    bang.serial("\nexecutable lines should start with a bang ! character as in:");
+    bang.serial("executable lines should start with a bang ! character as in:");
     bang.serial("    !echo hello, arduino!");
 
     bang.serial("macro lines should start with an @ character as in:");
