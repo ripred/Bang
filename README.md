@@ -37,29 +37,27 @@ In order to allow your Arduino to execute all programs that are requested, as we
 
 #### For Windows Users:
 ```
-runas /user:Administrator "cmd /c python3 arduino_exec.py --port COM3 2>&1"
+runas /user:Administrator "cmd /c python3 arduino_exec.py -p COM3"
 ```
 
 Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the public gallery require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
 ```
-python3 arduino_exec.py --port COM3 2>&1
+python3 arduino_exec.py -p COM3
 ```
 
 #### For Mac and Linux Users:
-Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port.
+Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
 
 ```
-sudo 2>&1 python3 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
+sudo python3 arduino_exec.py -p /dev/cu.usbserial-00100
 ```
 
-Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port.
+Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
 
 ```
-python3 2>&1 arduino_exec.py --port /dev/cu.usbserial-A4016Z9Q
+python3 arduino_exec.py -p /dev/cu.usbserial-00100
 ```
-
-The `2>&1` term will ensure that all output is captured and returned to your Arduino including any output directed to `stderr` in addition to the normal output sent to `stdout`.
 
 <!-- &#160; -->
 ___
@@ -94,7 +92,7 @@ void setup() {
     Serial.begin(115200);
     command_serial.begin(38400);
 
-    bang.serial("\nexecutable lines should start with a bang ! character as in:");
+    bang.serial("executable lines should start with a bang ! character as in:");
     bang.serial("    !echo hello, arduino!");
 
     bang.serial("macro lines should start with an @ character as in:");
