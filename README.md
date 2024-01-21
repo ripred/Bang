@@ -27,7 +27,7 @@ So far I have written and added the following sketches to the **[examples](https
 
 <!-- &#160; -->
 ___
-## Starting the Python Agent
+## • Starting the Python Agent
 Note that the Python module pyserial must be installed to allow the Python Agent to open the virtual serial port to talk to the Arduino. If you do not have it installed you can install it using the command:
 ```
 pip install pyserial
@@ -35,7 +35,7 @@ pip install pyserial
 
 In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line. Replace 'COM3' with the COM port your Arduino is connected to
 
-#### For Windows Users:
+#### • For Windows Users:
 ```
 runas /user:Administrator "cmd /c python3 arduino_exec.py -p COM3"
 ```
@@ -46,7 +46,7 @@ Note that if you don't plan on executing any commands that require the extra adm
 python3 arduino_exec.py -p COM3
 ```
 
-#### For Mac and Linux Users:
+#### • For Mac and Linux Users:
 Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
 
 ```
@@ -61,7 +61,7 @@ python3 arduino_exec.py -p /dev/cu.usbserial-00100
 
 <!-- &#160; -->
 ___
-## Using Bang in your Arduino sketches
+## • Using Bang in your Arduino sketches
 
 To use Bang in your sketches, simply use `Serial.println( "!command" )` to send the command to the USB (COM) port used by your Arduino.
 
@@ -112,7 +112,7 @@ void loop() {
 
 <!-- &#160; -->
 ___
-## The Future Uses of Bang
+## • Future Possible Uses of Bang
 
 The following are some of the ideas I have had that this technique can be used for. Items with a checkmark ✅ have already been implemeted in one way or another in one of the example sketches. 
 
