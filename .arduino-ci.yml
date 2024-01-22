@@ -21,6 +21,6 @@ compile:
   platforms:
     - uno
     - m4
-    - esp32
-    - esp8266
-    - rpipico
+    # - esp32
+    # - esp8266
+    # - rpipico
