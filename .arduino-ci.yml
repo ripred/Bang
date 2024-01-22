@@ -20,7 +20,7 @@ libraries:
 compile:
   platforms:
     - uno
-    - m4
+    # - m4
     # - esp32
     # - esp8266
     # - rpipico
