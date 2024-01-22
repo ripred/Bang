@@ -1,32 +1,39 @@
 /*
  * datetime.ino
  *
- * arduinoCLI sketch to retrieve the current date and time
+ * Bang platform sketch to retrieve the current date and time
  * to your Arduino.
+ *
  */
 
 #include <Arduino.h>
-#include <SoftwareSerial.h>
 #include <Bang.h>
 
-#define  RX_PIN   7
-#define  TX_PIN   8
+// Instructions For Use:
+// Define the manifest constant USE_FTDI if you want to use a separate FTDI module to issue commands on
+//   which frees the Serial output for normal debugging output
+// 
+// You can use just the Serial port by itself to issue commands and retreive the output
+// but then you cannot use the Serial Monitor window for debugging.
 
-SoftwareSerial command_serial(RX_PIN, TX_PIN);  // RX, TX
+// Un-comment to use an FTDI port for commands and the Serial port for debugging output
+#define  USE_FTDI
 
-// class wrapper for the Bang api so far.
-// This declaration uses both the Serial port and the FTDI serial port:
-Bang bang(command_serial, Serial);
-
-// This declaration uses only the Serial port but then we cannot use the Serial Monitor:
-//Bang bang(Serial);
+#ifdef  USE_FTDI
+#include <SoftwareSerial.h>
+enum { RX_PIN = 7, TX_PIN = 8 };
+SoftwareSerial command_serial(RX_PIN, TX_PIN);
+Bang bang(command_serial, Serial);  // class wrapper for the Bang api using two serial ports
+#else
+Bang bang(Serial);  // class wrapper for the Bang api using one serial port
+#endif
 
 #define    WINDOWS_CMD    "echo %DATE:~10,4%-%DATE:~4,2%-%DATE:~7,2% %TIME:~0,2%:%TIME:~3,2%:%TIME:~6,2%"
 #define    MAC_CMD        "date '+%Y-%m-%d %H:%M:%S'"
 
 void setup() {
     Serial.begin(115200);
-    command_serial.begin(9600);
+    command_serial.begin(38400);
 
     // Un-comment one of the following depending on your operating system:
     //String response = bang.exec(WINDOWS_CMD);
