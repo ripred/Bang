@@ -33,92 +33,36 @@
 #include <ArduinoUnitTests.h>
 
 #include "Arduino.h"
+#include "SoftwareSerial.h"
 #include "Bang.h"
+
+enum { RX_PIN = 7, TX_PIN = 8 };
+SoftwareSerial command_serial(RX_PIN, TX_PIN);
+
+// class wrapper for the Bang api so far using two serial ports:
+Bang bang(command_serial, Serial);
 
 
 unittest_setup()
 {
   fprintf(stderr, "Bang Platform\n");
+  Serial.begin(115200);
+  command_serial.begin(38400);
 }
 
 
 unittest_teardown()
 {
+  Serial.end();
+  command_serial.end();
 }
 
 
-unittest(test_constructor)
+unittest(test_mock)
 {
-//  Smooth sm(42);
-//  assertEqual(42, sm.get_window());
-//  assertEqual(0, sm.get_count());
-//  assertEqualFloat(0, sm.get_avg(), 0.0001);
-//
-//  Smooth sm0(5, 0, 0);
-//  assertEqual(5, sm0.get_window());
-//  assertEqual(0, sm0.get_count());
-//  assertEqualFloat(0, sm0.get_avg(), 0.0001);
-//
-//  Smooth sm1(7, 20);
-//  assertEqual(7, sm1.get_window());
-//  assertEqual(20, sm1.get_count());
-//  assertEqualFloat(0, sm0.get_avg(), 0.0001);
-//
-//  Smooth sm2(15, 25, 10);
-//  assertEqual(15, sm2.get_window());
-//  assertEqual(25, sm2.get_count());
-//  assertEqualFloat(10, sm2.get_avg(), 0.0001);
 }
-
-
-unittest(test_reset)
-{
-//  Smooth sm2(15, 25, 10);
-//  assertEqual(15, sm2.get_window());
-//  assertEqual(25, sm2.get_count());
-//  assertEqualFloat(10, sm2.get_avg(), 0.0001);
-//
-//  sm2.reset(10);
-//  assertEqual(10, sm2.get_window());
-//  assertEqual(0, sm2.get_count());
-//  assertEqualFloat(0, sm2.get_avg(), 0.0001);
-//
-//  sm2.reset(5, 4);
-//  assertEqual(5, sm2.get_window());
-//  assertEqual(4, sm2.get_count());
-//  assertEqualFloat(0, sm2.get_avg(), 0.0001);
-//
-//  sm2.reset(5, 4356, -17.68);
-//  assertEqual(5, sm2.get_window());
-//  assertEqual(4356, sm2.get_count());
-//  assertEqualFloat(-17.68, sm2.get_avg(), 0.0001);
-}
-
-
-unittest(test_avg)
-{
-//  Smooth sm(5, 0, 0);
-//
-//  assertEqual(5, sm.get_window());
-//  assertEqual(0, sm.get_count());
-//  assertEqualFloat(0, sm.get_avg(), 0.0001);
-//
-//  sm.add(10);
-//  assertEqual(1, sm.get_count());
-//  assertEqualFloat(10, sm.get_avg(), 0.0001);
-//  assertEqualFloat(10, sm(), 0.0001);
-//
-//  sm.add(5);
-//  assertEqual(2, sm.get_count());
-//  assertEqualFloat(7.5, sm.get_avg(), 0.0001);
-//  assertEqualFloat(7.5, sm(), 0.0001);
-}
-
-
-
 
 unittest_main()
-
 
 //  -- END OF FILE --
 
