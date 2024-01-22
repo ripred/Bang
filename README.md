@@ -90,7 +90,7 @@ Bang bang(command_serial, Serial);
 
 void setup() {
     Serial.begin(115200);
-    command_serial.begin(38400);
+    command_serial.begin(38400);    // the agent defaults to 38400 baud
 
     bang.serial("executable lines should start with a bang ! character as in:");
     bang.serial("    !echo hello, arduino!");
