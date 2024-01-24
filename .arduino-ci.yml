@@ -20,6 +20,7 @@ libraries:
 compile:
   platforms:
     - uno
+    - nano
     # - m4
     # - esp32
     # - esp8266
