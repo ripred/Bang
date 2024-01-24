@@ -40,7 +40,7 @@ In order to allow your Arduino to execute all programs that are requested, as we
 runas /user:Administrator "cmd /c python3 arduino_exec.py -p COM3"
 ```
 
-Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the public gallery require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
+Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the examples require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
 ```
 python3 arduino_exec.py -p COM3
@@ -53,7 +53,7 @@ Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino 
 sudo python3 arduino_exec.py -p /dev/cu.usbserial-00100
 ```
 
-Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the public gallery require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
+Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the examples require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
 
 ```
 python3 arduino_exec.py -p /dev/cu.usbserial-00100
