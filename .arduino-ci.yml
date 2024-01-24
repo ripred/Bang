@@ -20,9 +20,6 @@ libraries:
 compile:
   platforms:
     - uno
-    - due
-    - zero
-    - leonardo
     # - m4
     # - esp32
     # - esp8266
