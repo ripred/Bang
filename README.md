@@ -29,33 +29,33 @@ So far I have written and added the following sketches to the **[examples](https
 ___
 ## • Starting the Python Agent
 Note that the Python module pyserial must be installed to allow the Python Agent to open the virtual serial port to talk to the Arduino. If you do not have it installed you can install it using the command:
-```
+```bash
 pip install pyserial
 ```
 
 In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line. Replace 'COM3' with the COM port your Arduino is connected to
 
 #### • For Windows Users:
-```
+```bash
 runas /user:Administrator "cmd /c python3 arduino_exec.py -p COM3"
 ```
 
 Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the examples require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
 
-```
+```bash
 python3 arduino_exec.py -p COM3
 ```
 
 #### • For Mac and Linux Users:
 Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
 
-```
+```bash
 sudo python3 arduino_exec.py -p /dev/cu.usbserial-00100
 ```
 
 Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the examples require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
 
-```
+```bash
 python3 arduino_exec.py -p /dev/cu.usbserial-00100
 ```
 
@@ -72,7 +72,7 @@ For example, to tell the host to echo a string to the display you could issue th
 **Update:** With the changes to a library and the name there is now a `Bang` data type that let's you easily issue commands, macros, serial output, or dynamically compile and load new code (WIP).
 
 To use the class include the Bang.h header file in your project and declare the one (or two) Stream objects that it will be working with for issuing commands (and for Serial output) respectively:
-```
+```cpp
 #include <Arduino.h>
 #include <SoftwareSerial.h>
 #include <Bang.h>
