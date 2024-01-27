@@ -6,7 +6,6 @@
 
 # The Bang Arduino Library
 ## Arduino based command line interface.
-## (formerly known as ArduinoCLI)
 Make your Windows, Mac, or Linux host act as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it!
 
 Play, pause, and stop music files on the host, use the PC's large disk drive for Arduino accessible storage, get the current date & time, issue curl commands to post or retrieve anything on the web or to control your local intranet Hue Bridge and Lights, retrieve the current weather, tell the host machine to reboot, check if the host machine is asleep. The possibilities are endless! All using the simplest of Arduino's with no additional modules or connections needed besides the Serial-USB communications. 😃
@@ -29,35 +28,33 @@ So far I have written and added the following sketches to the **[examples](https
 ___
 ## • Starting the Python Agent
 Note that the Python module pyserial must be installed to allow the Python Agent to open the virtual serial port to talk to the Arduino. If you do not have it installed you can install it using the command:
-```bash
+```
 pip install pyserial
 ```
 
-In order to allow your Arduino to execute all programs that are requested, as well as to capture all of the output, you should start the Python Agent using the following command line. Replace 'COM3' with the COM port your Arduino is connected to
-
 #### • For Windows Users:
-```bash
-runas /user:Administrator "cmd /c python3 arduino_exec.py -p COM3"
+You should start the Python Agent on Windows using the following command line. Replace `COM3` with the COM port your Arduino is connected to.
 ```
-
-Note that if you don't plan on executing any commands that require the extra administrative permissons you can run the program directly just using Python alone without including the `runas /user:Administrator` prefix. Some of the sketches in the examples require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep:
-
-```bash
 python3 arduino_exec.py -p COM3
 ```
 
-#### • For Mac and Linux Users:
-Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
+Note that some of the sketches in the examples require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. In order to execute those commands the Python Agent must be started with administrative privileges:
+```
+runas /user:Administrator "cmd /c python3 arduino_exec.py -p COM3"
+```
 
-```bash
+#### • For Mac and Linux Users:
+You should start the Python Agent on Mac and Linux using the following command line. Replace the device path `/dev/cu.usbserial-00100` with the path to your Arduino port.
+```
+python3 arduino_exec.py -p /dev/cu.usbserial-00100
+```
+
+Note that some of the sketches in the examples require administrative permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. In order to execute those commands the Python Agent must be started with administrative privileges:
+Replace the device path `/dev/cu.usbserial-00100` with the path to your Arduino port.
+```
 sudo python3 arduino_exec.py -p /dev/cu.usbserial-00100
 ```
 
-Note that if you don't plan on executing any commands that require the extra root permissons you can run the program directly just using Python alone without including the `sudo` prefix. Some of the sketches in the examples require root permissions, specifically those that allow the Arduino to shut down, reboot, or put the host machine to sleep. Replace the device path '/dev/cu.usbserial-00100' with the path to your Arduino port.
-
-```bash
-python3 arduino_exec.py -p /dev/cu.usbserial-00100
-```
 
 <!-- &#160; -->
 ___
