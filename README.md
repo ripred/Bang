@@ -2,7 +2,7 @@
 [![Arduino-lint](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml)
 ![code size:](https://img.shields.io/github/languages/code-size/ripred/Bang)
 [![GitHub release](https://img.shields.io/github/release/ripred/Bang.svg?maxAge=3600)](https://github.com/ripred/Bang/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/ripred/Bang/blob/master/LICENSE)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ripred/Bang/blob/master/LICENSE)
 
 # The Bang Arduino Library
 ## Arduino based command line interface.
