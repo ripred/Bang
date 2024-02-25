@@ -1,8 +1,26 @@
+<!--
+<p align="center">
+    <a href="https://github.com/ripred/Bang/stargazers">
+        <img src="https://img.shields.io/github/stars/ripred/Bang.svg?style=flat-square&colorB=4183c4"
+             alt="stars">
+    </a>
+    <a href="https://github.com/ripred/Bang/network">
+        <img src="https://img.shields.io/github/forks/ripred/Bang.svg?style=flat-square&colorB=4183c4"
+             alt="forks">
+    </a>
+    <a href="./licenses/LICENSE">
+        <img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square&colorB=4183c4"
+             alt="license">
+    </a>
+</p>
+-->
+
 [![Arduino CI](https://github.com/ripred/Bang/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 [![Arduino-lint](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml)
 ![code size:](https://img.shields.io/github/languages/code-size/ripred/Bang)
 [![GitHub release](https://img.shields.io/github/release/ripred/Bang.svg?maxAge=3600)](https://github.com/ripred/Bang/releases)
 [![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ripred/Bang/blob/master/LICENSE)
+[![Stars](https://img.shields.io/github/stars/ripred/Bang.svg?style=flat-square&colorB=4183c4)](https://github.com/ripred/Bang)
 
 # The Bang Arduino Library
 ## Arduino based command line interface.
