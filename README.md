@@ -24,7 +24,9 @@
 
 # The Bang Arduino Library
 ## Arduino controlled host machine command line interface.
-Make your Windows, Mac, or Linux host act as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it! Or retriev any data on your PC/mac/linux box that you need on the Arduino or other microcontroller just by asking for the file contents; It will be sent back to your Arduino or other microcontroller immediately! (you can also use the host machines disc drive and larger space to write and read any extra data files you might need instead of having to attach and use an SD card for example)
+Make your Windows, Mac, or Linux host act as a "service" for your Arduino (and any other serial-USB capable microcontroller such as the ESP32) and execute any commands on it's behalf and receive the captured results! Anything you can do at a terminal prompt can be done on behalf of the Arduino with any output captured and sent back to the Arduino to do whatever it wants with it! 
+
+Or store and retrieve any data on your PC/mac/linux box that you need on the Arduino or other microcontroller just by asking for the file contents; It will be sent back to your Arduino or other microcontroller immediately! (you can also use the host machines disc drive and larger space to write and read any extra data files you might need instead of having to attach and use an SD card for example)
 
 Play, pause, and stop music files on the host, use the PC's large disk drive for Arduino accessible storage, get the current date & time, issue curl commands to post or retrieve anything on the web or to control your local intranet Hue Bridge and Lights, retrieve the current weather, tell the host machine to reboot, check if the host machine is asleep. The possibilities are endless! All using the simplest of Arduino's with no additional modules or connections needed besides the Serial-USB communications. 😃
 
