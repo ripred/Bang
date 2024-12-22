@@ -1,90 +1,60 @@
-/*
- * BangBase.cpp
- * 
- * class implementation file for the Bang project
- * https://github.com/ripred/Bang
- * 
- */
 #include "Bang.h"
 
-Bang::Bang() {
-    dbgstrm = nullptr;
-    cmdstrm = nullptr;
+// A simple buffer size for read data or for formatting text
+#ifndef BANG_BUFFER_SIZE
+#define BANG_BUFFER_SIZE 64
+#endif
+
+// This static global pointer will allow bang_host_printf(...) to know which Bang instance to use.
+// Alternatively, you could store a pointer to a "current" Bang in user_data. 
+static Bang* s_currentBang = nullptr;
+
+void bang_init(Bang* b, Stream* s, BangCallback cb, void* user_data) {
+    if (!b) return;
+    b->stream   = s;
+    b->callback = cb;
+    b->user_data = user_data;
+    s_currentBang = b; 
 }
 
-Bang::Bang(Stream &cmd_strm) :
-    dbgstrm{nullptr},
-    cmdstrm{&cmd_strm}
-{
-}
+// A trivial parser example. You might expand this to look for command IDs, etc.
+void bang_update(Bang* b) {
+    if (!b || !b->stream) return;
 
-Bang::Bang(Stream &cmd_strm, Stream &dbg_strm) {
-    dbgstrm = &dbg_strm;
-    cmdstrm = &cmd_strm;
-}
-
-String Bang::send_and_recv(char const cmd_id, char const *pcmd) {
-    if (!cmdstrm) { return ""; }
-
-    String output = "";
-    String cmd(String(cmd_id) + pcmd);
-    Stream &stream = *cmdstrm;
-    stream.println(cmd);
-    delay(100);
-    while (stream.available()) {
-        output += stream.readString();
-    }
-
-    return output;
-}
-
-String Bang::exec(char const *pcmd) {
-    return send_and_recv('!', pcmd);
-}
-
-String Bang::macro(char const *pcmd) {
-    return send_and_recv('@', pcmd);
-}
-
-String Bang::serial(char const *ptext) {
-    return send_and_recv('#', ptext);
-}
-
-String Bang::compile_and_upload(char const *pcmd) {
-    return send_and_recv('&', pcmd);
-}
-
-long Bang::write_file(char const *filename, char const * const lines[], int const num) {
-    if (num <= 0) { return 0; }
-    long len = 0;
-
-    String cmd = String("echo \"") + lines[0] + "\" > " + filename;
-    len += cmd.length();
-    exec(cmd.c_str());
-
-    for (int i=1; i < num; i++) {
-        cmd = String("echo \"") + lines[i] + "\" >> " + filename;
-        len += cmd.length();
-        exec(cmd.c_str());
-    }
-
-    return len;
-}
-
-void Bang::push_me_pull_you(Stream &str1, Stream &str2) {
-    if (str1.available() >= 2) {
-        uint32_t const period = 5;
-        uint32_t start = millis();
-        while (millis() - start < period) {
-            while (str1.available()) {
-                str2.print(str1.readString());
+    // Read available characters and, for demo, call the callback if you want
+    while (b->stream->available()) {
+        char c = (char)(b->stream->read());
+        // For demonstration, if we get '!' as a command ID, call the callback:
+        if (c == '!') {
+            // Example: read the rest of the line
+            char buffer[BANG_BUFFER_SIZE];
+            size_t idx = 0;
+            while (b->stream->available() && idx < (BANG_BUFFER_SIZE - 1)) {
+                char nextC = (char)(b->stream->peek());
+                if (nextC == '\n' || nextC == '\r') break;
+                buffer[idx++] = b->stream->read();
+            }
+            buffer[idx] = '\0';
+            // Call the callback with a made-up command byte and the data
+            if (b->callback) {
+                b->callback(b, /*cmd=*/123, buffer, (uint16_t)idx);
             }
         }
     }
 }
 
-void Bang::sync() {
-    if (!cmdstrm || !dbgstrm) { return; }
-    push_me_pull_you(*cmdstrm, *dbgstrm);
-    push_me_pull_you(*dbgstrm, *cmdstrm);
+// A printf-style function that writes out to the host (b->stream).
+// If you only ever have one Bang instance, you can rely on s_currentBang.
+// Otherwise, you'd add an argument so you know which instance to write to.
+void bang_host_printf(const char* fmt, ...) {
+    if (!s_currentBang || !s_currentBang->stream) return;
+
+    char buffer[BANG_BUFFER_SIZE];
+    va_list args;
+    va_start(args, fmt);
+    vsnprintf(buffer, sizeof(buffer), fmt, args);
+    va_end(args);
+
+    s_currentBang->stream->print(buffer);
 }
+

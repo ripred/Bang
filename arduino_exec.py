@@ -11,9 +11,11 @@ https://github.com/ripred/ArduinoCLI
 
 @author Trent M. Wyatt
 @date 2023-12-10
-@version 1.3
+@version 1.4
 
 Release Notes:
+1.4 - Modified to properly close/toggle DTR before uploading on an ATmega328-based Nano.
+
 1.3 - added support for serial output
 
 1.2 - added support for compiling, uploading, and replacing the
@@ -38,17 +40,6 @@ upload Arduino code. Ensure the Arduino CLI commands are accessible
 before using the compile and upload functionality.
 
 ======================================================================
-
-For Windows Users
-
-C:\> rem Replace 'COM3' with the COM port your Arduino is connected to
-C:\> cmd /c python -m arduino_exec.py -p COM3 2>&1
-Waiting for a command from the Arduino...
-
-For Mac and Linux Users:
-$ # Replace the device path '/dev/cu.usbserial-A4016Z9Q' with the path to your Arduino port
-$ python3 -m arduino_exec.py -p /dev/cu.usbserial-A4016Z9Q
-Waiting for a command from the Arduino...
 """
 
 import subprocess
@@ -59,10 +50,9 @@ import serial
 import json
 import sys
 import os
+import time
 
-
-# A list of abbreviated commands that the Arduino
-# can send to run a pre-registered command:
+# A list of abbreviated commands that the Arduino can send to run a pre-registered command:
 macros = {}
 
 # The logger
@@ -70,6 +60,9 @@ logger = None
 
 # The serial port
 cmd_serial = None
+
+# Store command-line args globally so other functions can reference them
+ARGS = None
 
 
 def parse_args():
@@ -91,8 +84,6 @@ def setup_logger():
     @brief Set up the logger for error logging.
 
     Configures a logger to log errors to both the console and a file.
-
-    @return None
     """
     global logger
 
@@ -116,11 +107,6 @@ def sigint_handler(signum, frame):
     @brief Signal handler for SIGINT (Ctrl+C).
 
     Handles the SIGINT signal (Ctrl+C) to save macros and exit gracefully.
-
-    @param signum: Signal number
-    @param frame: Current stack frame
-
-    @return None
     """
     print(" User hit ctrl-c, exiting.")
     save_macros(macros)
@@ -130,27 +116,15 @@ def sigint_handler(signum, frame):
 def set_signal_handler():
     """
     @brief Set the signal handler for SIGINT.
-
-    Sets the signal handler for SIGINT (Ctrl+C) to sigint_handler.
-
-    @return None
     """
     signal.signal(signal.SIGINT, sigint_handler)
 
 
 def open_serial_port(port, baud):
     """
-    @brief Open the specified serial port.
-
-    Attempts to open the specified serial port with a timeout of 30 milliseconds.
-
-    @param port: The serial port to open.
-    @param baud: The baud rate.
+    @brief Open the specified serial port with a timeout of 30ms.
 
     @return serial.Serial: The opened serial port.
-
-    @exit If the serial port cannot be opened,
-          the program exits with an error message.
     """
     global cmd_serial
 
@@ -159,11 +133,11 @@ def open_serial_port(port, baud):
     except Exception as e:
         result = f"Failed to open the serial port: '{port}'. {str(e)}"
         print(result)
-        exit(-1)
+        sys.exit(-1)
 
     if not cmd_serial:
         print(f"Could not open the serial port: '{port}'")
-        exit(-1)
+        sys.exit(-1)
 
     print(f"Successfully opened serial port: '{port}'")
     return cmd_serial
@@ -175,13 +149,7 @@ def execute_command(command):
 
     Executes a command using subprocess and captures the output.
     If an error occurs, logs the error and returns an error message.
-
-    @param command: The command to execute.
-
-    @return str: The output of the command or an error message.
     """
-#   print(f"Executing: {command}")  # Output for the user
-
     try:
         result = subprocess.check_output(command, shell=True,
                                          stderr=subprocess.STDOUT, text=True)
@@ -199,14 +167,6 @@ def execute_command(command):
 def load_macros(filename='macros.txt'):
     """
     @brief Load macros from a file.
-
-    Attempts to load macros from a specified file.
-    If the file is not found, returns an empty dictionary.
-
-    @param filename: The name of the file containing
-                     macros (default: 'macros.txt').
-
-    @return dict: The loaded macros.
     """
     try:
         with open(filename, 'r') as file:
@@ -215,100 +175,82 @@ def load_macros(filename='macros.txt'):
         return {}
 
 
-def save_macros(macros, filename='macros.txt'):
+def save_macros(macros_dict, filename='macros.txt'):
     """
     @brief Save macros to a file.
-
-    Saves the provided macros to a specified file.
-
-    @param macros: The macros to save.
-    @param filename: The name of the file to save macros
-                     to (default: 'macros.txt').
-
-    @return None
     """
     with open(filename, 'w') as file:
-        json.dump(macros, file, indent=4, sort_keys=True)
+        json.dump(macros_dict, file, indent=4, sort_keys=True)
 
 
-def create_macro(name, command, macros):
+def create_macro(name, command, macros_dict):
     """
     @brief Create a new macro.
-
-    Creates a new macro with the given name and command, and saves it.
-
-    @param name: The name of the new macro.
-    @param command: The command associated with the new macro.
-    @param macros: The dictionary of existing macros.
-
-    @return None
     """
-    macros[name] = command
-    save_macros(macros)
+    macros_dict[name] = command
+    save_macros(macros_dict)
 
 
-def read_macro(name, macros):
+def read_macro(name, macros_dict):
     """
     @brief Read the command associated with a macro.
-
-    Retrieves the command associated with a given macro name.
-
-    @param name: The name of the macro.
-    @param macros: The dictionary of existing macros.
-
-    @return str: The command associated with the macro or an error message.
     """
-    return macros.get(name, "Macro not found")
+    return macros_dict.get(name, "Macro not found")
 
 
-def execute_macro(name, macros):
+def execute_macro(name, macros_dict):
     """
     @brief Execute a macro.
-
-    Executes the command associated with a given macro name.
-
-    @param name: The name of the macro.
-    @param macros: The dictionary of existing macros.
-
-    @return str: The output of the macro command or an error message.
     """
-    if name in macros:
-        return execute_command(macros[name])
+    if name in macros_dict:
+        return execute_command(macros_dict[name])
     else:
         return f"Macro '{name}' not found"
 
 
-def delete_macro(name, macros):
+def delete_macro(name, macros_dict):
     """
     @brief Delete a macro.
-
-    Deletes the specified macro and saves the updated macro list.
-
-    @param name: The name of the macro to delete.
-    @param macros: The dictionary of existing macros.
-
-    @return str: Confirmation message or an error message if the
-                 macro is not found.
     """
-    if name in macros:
-        del macros[name]
-        save_macros(macros)
+    if name in macros_dict:
+        del macros_dict[name]
+        save_macros(macros_dict)
         return f"Macro '{name}' deleted"
     else:
         return f"Macro '{name}' not found"
 
 
+def reset_nano_dtr(port_name):
+    """
+    @brief Toggle DTR on an ATmega328-based Nano to reset it into the bootloader.
+
+    Opening the port sets DTR high by default; we lower it briefly, then raise it again.
+    """
+    print(f"Toggling DTR on port: {port_name} to reset the Nano...")
+    try:
+        with serial.Serial(port_name, 9600, timeout=1) as s:
+            # Lower DTR
+            s.dtr = False
+            time.sleep(0.1)
+            # Raise DTR
+            s.dtr = True
+        # Wait a bit so the bootloader can start
+        time.sleep(0.5)
+    except Exception as e:
+        print(f"Warning: Could not toggle DTR for reset: {e}")
+
+
 def compile_and_upload(folder):
     """
-    @brief Compile and upload Arduino code.
+    @brief Compile and upload Arduino code from the specified folder.
 
-    Compiles and uploads Arduino code from the specified folder.
-
-    @param folder: The folder containing the Arduino project.
-
-    @return str: Result of compilation and upload process.
+    On an ATmega328-based Nano, we:
+      1) Close the current Python serial connection (so avrdude can own the port).
+      2) Manually toggle DTR to reset the board.
+      3) Call 'arduino-cli compile' and 'arduino-cli upload'.
+      4) Reopen the Python serial port so we can keep receiving commands.
     """
-    global cmd_serial
+    global cmd_serial, ARGS
 
     # Check if the specified folder exists
     if not os.path.exists(folder):
@@ -319,24 +261,34 @@ def compile_and_upload(folder):
     if not os.path.isfile(ino_file):
         return f"Error: Folder '{folder}' does not contain a matching .ino file."
 
-    # Define constant part of the compile and upload commands
-    PORT_NAME = '/dev/cu.usbserial-41430'
-    COMPILE_COMMAND_BASE = 'arduino-cli compile --fqbn arduino:avr:nano'
-    UPLOAD_COMMAND_BASE = 'arduino-cli upload -p '
-    + PORT_NAME + ' --fqbn arduino:avr:nano:cpu=atmega328old'
+    # Use the port the user gave us
+    port_name = ARGS.port
+    fqbn = "arduino:avr:nano:cpu=atmega328old"  # Adjust if needed
+    compile_command = f"arduino-cli compile --fqbn {fqbn} {folder}"
+    upload_command = f"arduino-cli upload -p {port_name} --fqbn {fqbn} {folder}"
 
-    compile_command = f'{COMPILE_COMMAND_BASE} {folder}'
-    upload_command = f'{UPLOAD_COMMAND_BASE} {folder}'
+    # 1) Close our current Python-held serial port
+    if cmd_serial and cmd_serial.is_open:
+        print("Closing Python serial port before compile/upload...")
+        cmd_serial.close()
+        time.sleep(0.5)  # Give OS time to actually release the port
 
+    # 2) Manually toggle DTR to reset the Nano
+    reset_nano_dtr(port_name)
+
+    # 3) Compile and upload
     compile_result = execute_command(compile_command)
     print(f"executed: {compile_command}\nresult: {compile_result}")
 
     upload_result = execute_command(upload_command)
     print(f"executed: {upload_command}\nresult: {upload_result}")
 
-    result = f"Compile Result:\n{compile_result}\n" + "Upload Result:\n{upload_result}"
+    # 4) Reopen the port so we can continue reading commands
+    print("Reopening Python serial port after upload...")
+    cmd_serial = open_serial_port(port_name, ARGS.baud)
 
-    return result
+    # Summarize results
+    return f"Compile Result:\n{compile_result}\nUpload Result:\n{upload_result}"
 
 
 def run():
@@ -344,18 +296,19 @@ def run():
     @brief Main execution function.
 
     Handles communication with Arduino, waits for commands, and executes them.
-
-    @return None
     """
     global macros
     global cmd_serial
+    global ARGS
 
-    args = parse_args()
-    cmd_serial = open_serial_port(args.port, args.baud)
+    ARGS = parse_args()
+    cmd_serial = open_serial_port(ARGS.port, ARGS.baud)
 
     set_signal_handler()
     macros = load_macros()
     setup_logger()
+
+    print("Waiting for commands from Arduino...")
 
     while True:
         try:
@@ -368,50 +321,42 @@ def run():
             continue
 
         logtext = f"Received command from Arduino: '{arduino_command}'"
-#       print(logtext)
         logger.info(logtext)
 
-        cmd_id = arduino_command[0]     # Extract the first character
-        command = arduino_command[1:]   # Extract the remainder of the command
+        cmd_id = arduino_command[0]     # Extract first character
+        command = arduino_command[1:]   # Extract remainder
         command = command.strip()
         result = ""
 
-        # Check if the command is an execute command:
+        # ! => raw shell command
         if cmd_id == '!':
-            # Dispatch the command to handle built-in commands
             result = execute_command(command)
 
-        # Check if the command is a macro related command:
+        # @ => macros
         elif cmd_id == '@':
             if command in macros:
                 result = execute_command(macros[command])
-
             elif command == "list_macros":
-                macro_list = [f'    "{macro}": "{macros[macro]}"'
-                              for macro in macros]
+                macro_list = [f'    "{m}": "{macros[m]}"' for m in macros]
                 result = "Registered Macros:\n" + "\n".join(macro_list)
-
             elif command.startswith("add_macro:"):
-                _, name, command = command.split(":")
-                create_macro(name, command, macros)
-                result = f"Macro '{name}' created with command '{command}'"
-
+                _, macro_name, macro_cmd = command.split(":")
+                create_macro(macro_name, macro_cmd, macros)
+                result = f"Macro '{macro_name}' created with command '{macro_cmd}'"
             elif command.startswith("delete_macro:"):
-                _, name = command.split(":")
-                result = delete_macro(name, macros)
-
+                _, macro_name = command.split(":")
+                result = delete_macro(macro_name, macros)
             else:
                 result = f"unrecognized macro command: @{command}"
                 print(result + '\n')
                 cmd_serial.write(result.encode('utf-8') + b'\n')
                 continue
 
-        # Check if the command is a build and upload command:
+        # & => compile + upload
         elif cmd_id == '&':
-            # Dispatch the compile and avrdude upload
             result = compile_and_upload(command)
 
-        # Check if the command is a Serial Monitor output line
+        # # => just a text line
         elif cmd_id == '#':
             result = command
 
@@ -421,10 +366,10 @@ def run():
             cmd_serial.write(result.encode('utf-8') + b'\n')
             continue
 
-        # output the results to the display and to the serial port
+        # Output results to console and serial
         lines = result.split('\n')
         if lines and not lines[-1].strip():
-            lines.pop()  # Remove the last line
+            lines.pop()  # Remove any empty trailing line
 
         for line in lines:
             print(line)
@@ -433,3 +378,4 @@ def run():
 
 if __name__ == '__main__':
     run()
+

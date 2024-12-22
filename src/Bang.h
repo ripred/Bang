@@ -1,42 +1,39 @@
-/*
- * Bang.h
- * 
- * class declaration file for the ArduinoCLI project
- * https://github.com/ripred/ArduinoCLI
- * 
- */
-#ifndef  BANG_H_INCL
-#define  BANG_H_INCL
+#ifndef BANG_H
+#define BANG_H
 
 #include <Arduino.h>
-#include <Stream.h>
-#include <SoftwareSerial.h>
+#include <stdarg.h>
 
-class Bang {
-private:
-    // pointers to the cmd I/O stream and the optional serial output stream
-    Stream *dbgstrm {nullptr};
-    Stream *cmdstrm {nullptr};
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-public:
-    // constructors
-    Bang();
-    Bang(Stream &cmd_strm);
-    Bang(Stream &cmd_strm, Stream &dbg_strm);
+// Forward-declare the Bang struct (defined below)
+typedef struct Bang Bang;
 
-    String send_and_recv(char const cmd_id, char const *pcmd);
+// Callback signature used when we receive certain commands from the host
+typedef void (*BangCallback)(Bang* inst, uint8_t cmd, const char* data, uint16_t len);
 
-    String exec(char const *pcmd);
-    String macro(char const *pcmd);
-    String serial(char const *pcmd);
-    String compile_and_upload(char const *pcmd);
+// The main Bang struct, storing necessary state
+struct Bang {
+    Stream* stream;          // The hardware (or software) serial
+    BangCallback callback;   // Optional callback for received commands
+    void* user_data;         // Optional user context
+};
 
-    long write_file(char const *filename, char const * const lines[], int const num);
+// Initializes a Bang instance with the given parameters
+void bang_init(Bang* b, Stream* s, BangCallback cb, void* user_data);
 
-    void push_me_pull_you(Stream &str1, Stream &str2);
+// Periodically called in loop() to read incoming data, parse commands, etc.
+void bang_update(Bang* b);
 
-    void sync();
+// Utility function to send text back to the host (printf-style).
+// E.g., bang_host_printf("Hello: %d\n", someValue);
+void bang_host_printf(const char* fmt, ...);
 
-}; // class Bang
+#ifdef __cplusplus
+}
+#endif
 
-#endif // BANG_H_INCL
+#endif // BANG_H
+
