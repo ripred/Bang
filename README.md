@@ -30,6 +30,10 @@ Or store and retrieve any data on your PC/mac/linux box that you need on the Ard
 
 Play, pause, and stop music files on the host, use the PC's large disk drive for Arduino accessible storage, get the current date & time, issue curl commands to post or retrieve anything on the web or to control your local intranet Hue Bridge and Lights, retrieve the current weather, tell the host machine to reboot, check if the host machine is asleep. The possibilities are endless! All using the simplest of Arduino's with no additional modules or connections needed besides the Serial-USB communications. 😃
 
+**NEW!! (actually just finally fixed!): The Bang library now allows the microcontroller to tell the host machine to compile and upload a completely different sketch, replacing the one currently running!**
+
+This means that your Arduino applications can grow to be as large as needed, exceeding the 32K limit, and although not the most efficiently, it can load other code on demand to replace the existing running code on the microcontroller. As long as the Bang library is included in each sketch that is uploaded on demand, each one will have the ability to also do the same and tell the host machine to upload any other sketch.
+
 So far I have written and added the following sketches to the **[examples](https://github.com/ripred/Bang/tree/main/examples)** folder:
 
 -   **[bang.ino](https://github.com/ripred/Bang/blob/main/examples/bang/bang.ino)** example sketch that lets you send any command from the serial monitor window and receive the response.
