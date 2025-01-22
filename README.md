@@ -32,7 +32,7 @@ Play, pause, and stop music files on the host, use the PC's large disk drive for
 
 **NEW!! (actually just finally fixed!): The Bang library now allows the microcontroller to tell the host machine to compile and upload a completely different sketch, replacing the one currently running!**
 
-This means that your Arduino applications can grow to be as large as needed, exceeding the 32K limit, and although not the most efficiently, it can load other code on demand to replace the existing running code on the microcontroller. As long as the Bang library is included in each sketch that is uploaded on demand, each one will have the ability to also do the same and tell the host machine to upload any other sketch.
+This means that your Arduino applications can grow to be as large as needed, exceeding the 32K limit, and although not the most efficiently, it can load other code on demand to replace the existing running code on the microcontroller. As long as the Bang library is included in each sketch that is uploaded on demand, each one will have the ability to also do the same and tell the host machine to upload any other sketch. Note that this uses the `arduino-cli` command line utility which must be installed separately.
 
 So far I have written and added the following sketches to the **[examples](https://github.com/ripred/Bang/tree/main/examples)** folder:
 
