@@ -13,9 +13,9 @@
              alt="license">
     </a>
 </p>
--->
 
 [![Arduino CI](https://github.com/ripred/Bang/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
+-->
 [![Arduino-lint](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml)
 ![code size:](https://img.shields.io/github/languages/code-size/ripred/Bang)
 [![GitHub release](https://img.shields.io/github/release/ripred/Bang.svg?maxAge=3600)](https://github.com/ripred/Bang/releases)
