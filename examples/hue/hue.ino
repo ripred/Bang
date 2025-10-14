@@ -1,7 +1,7 @@
 /*
  * hue.ino
  *
- * ArduinoCLI sketch to control Hue lights using curl commands.
+ * Bang library example sketch to control Hue lights using curl commands.
  * 
  */
 
