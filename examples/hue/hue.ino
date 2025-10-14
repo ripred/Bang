@@ -37,9 +37,9 @@ Bang bang(Serial);
 #define YOUR_USERNAME "your_username"  // Replace with your Hue Bridge username
 
 // change to match your Hue Bridge group numbers
-#define LIGHT_ID_1 1
-#define LIGHT_ID_2 2
-#define GROUP_ID 1
+#define   LIGHT_ID_1    1
+#define   LIGHT_ID_2    2
+#define   GROUP_ID      1
 
 // Function to create and format the command string
 String formatCommand(String apiEndpoint, String method, String additionalParams = "") {
