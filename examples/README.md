@@ -13,3 +13,4 @@ So far I have written and added the following sketches to the PublicGallery fold
 -   **[pjlink.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/pjlink/pjlink.ino)** sketch for an example of invoking the PJLink command line tool.
 -   **[hue.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/hue/hue.ino)** example sketch for controlling the lights in your home via the Hue Bridge using 'curl' commands.
 -   **[fileIO.ino](https://github.com/ripred/ArduinoCLI/blob/main/PublicGallery/fileIO/fileIO.ino)** example sketch for creating, reading, writing, and deleting text files including support for random access insert and read line by number, get number of lines in a file, etc. Works on Windows, Mac, and Linux.
+-   **[beamngpy.ino](https://github.com/ripred/Bang/blob/main/examples/beamngpy/beamngpy.ino)** sketch showing how to call BeamNGpy through Bang and read vehicle telemetry back as JSON.

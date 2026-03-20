@@ -47,6 +47,7 @@ So far I have written and added the following sketches to the **[examples](https
 -   **[macSpeechSynthesizer.ino](https://github.com/ripred/Bang/blob/main/examples/macSpeechSynthesizer/macSpeechSynthesizer.ino)** sketch to make your Mac speak anything your Arduino tells it to
 -   **[isMacAsleep.ino](https://github.com/ripred/Bang/blob/main/examples/isMacAsleep/isMacAsleep.ino)** sketch to retrieve whether the host machine is asleep or not!
 -   **[pjlink.ino](https://github.com/ripred/Bang/blob/main/examples/pjlink/pjlink.ino)** sketch for an example of invoking the `pjlink` command line tool for controlling and retrieving information from projectors and other PJLINK capable devices
+-   **[beamngpy.ino](https://github.com/ripred/Bang/blob/main/examples/beamngpy/beamngpy.ino)** sketch showing how to invoke the official BeamNGpy API through Bang in order to read telemetry and send simple simulator commands
 
 <!-- &#160; -->
 ___
