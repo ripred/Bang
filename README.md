@@ -92,6 +92,11 @@ For example, to tell the host to echo a string to the display you could issue th
 
 **Update:** With the changes to a library and the name there is now a `Bang` data type that let's you easily issue commands, macros, serial output, or dynamically compile and load new code (WIP).
 
+The library now exposes both:
+
+* a low-level C API (`bang_init`, `bang_update`, `bang_host_printf`)
+* a higher-level C++ wrapper used by the examples (`Bang bang(...);`, `bang.exec(...)`, `bang.sync()`)
+
 To use the class include the Bang.h header file in your project and declare the one (or two) Stream objects that it will be working with for issuing commands (and for Serial output) respectively:
 ```cpp
 #include <Arduino.h>
@@ -112,6 +117,7 @@ Bang bang(command_serial, Serial);
 void setup() {
     Serial.begin(115200);
     command_serial.begin(38400);    // the agent defaults to 38400 baud
+    bang.setTimeout(1000);          // optional: default host response timeout in ms
 
     bang.serial("executable lines should start with a bang ! character as in:");
     bang.serial("    !echo hello, arduino!");

@@ -14,7 +14,9 @@ typedef struct Bang Bang;
 // Callback signature used when we receive certain commands from the host
 typedef void (*BangCallback)(Bang* inst, uint8_t cmd, const char* data, uint16_t len);
 
-// The main Bang struct, storing necessary state
+// The main Bang struct, storing the low-level C API state.
+// When compiled as C++, this same type also exposes the higher-level wrapper
+// methods used by the example sketches and README snippets.
 struct Bang {
     Stream* stream;          // The hardware (or software) serial
     BangCallback callback;   // Optional callback for received commands
@@ -28,6 +30,7 @@ struct Bang {
     explicit Bang(Stream& s);
     Bang(Stream& s, Stream& serial);
 
+    void setTimeout(unsigned long timeout);
     String exec(const char* command);
     String exec(const String& command);
     void serial(const char* text);

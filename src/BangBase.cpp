@@ -108,6 +108,10 @@ Bang::Bang(Stream& s, Stream& serial) : Bang() {
     serial_stream = &serial;
 }
 
+void Bang::setTimeout(unsigned long timeout) {
+    timeout_ms = timeout;
+}
+
 String Bang::exec(const String& command) {
     return exec(command.c_str());
 }
