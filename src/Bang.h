@@ -19,6 +19,21 @@ struct Bang {
     Stream* stream;          // The hardware (or software) serial
     BangCallback callback;   // Optional callback for received commands
     void* user_data;         // Optional user context
+
+#ifdef __cplusplus
+    Stream* serial_stream;   // Optional debug/console serial stream
+    unsigned long timeout_ms;
+
+    Bang();
+    explicit Bang(Stream& s);
+    Bang(Stream& s, Stream& serial);
+
+    String exec(const char* command);
+    String exec(const String& command);
+    void serial(const char* text);
+    void serial(const String& text);
+    void sync();
+#endif
 };
 
 // Initializes a Bang instance with the given parameters
@@ -36,4 +51,3 @@ void bang_host_printf(const char* fmt, ...);
 #endif
 
 #endif // BANG_H
-

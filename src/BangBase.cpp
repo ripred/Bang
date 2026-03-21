@@ -2,7 +2,7 @@
 
 // A simple buffer size for read data or for formatting text
 #ifndef BANG_BUFFER_SIZE
-#define BANG_BUFFER_SIZE 64
+#define BANG_BUFFER_SIZE 256
 #endif
 
 // This static global pointer will allow bang_host_printf(...) to know which Bang instance to use.
@@ -14,6 +14,10 @@ void bang_init(Bang* b, Stream* s, BangCallback cb, void* user_data) {
     b->stream   = s;
     b->callback = cb;
     b->user_data = user_data;
+#ifdef __cplusplus
+    b->serial_stream = nullptr;
+    b->timeout_ms = 1000;
+#endif
     s_currentBang = b; 
 }
 
@@ -58,3 +62,113 @@ void bang_host_printf(const char* fmt, ...) {
     s_currentBang->stream->print(buffer);
 }
 
+#ifdef __cplusplus
+namespace {
+
+static bool bang_has_prefix(const char* command) {
+    if (!command || !command[0]) {
+        return false;
+    }
+
+    switch (command[0]) {
+        case '!':
+        case '@':
+        case '#':
+        case '&':
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+static void bang_print_line(Stream* target, const char* text) {
+    if (!target || !text) {
+        return;
+    }
+
+    target->print(text);
+    size_t const len = strlen(text);
+    if (len == 0 || (text[len - 1] != '\n' && text[len - 1] != '\r')) {
+        target->print('\n');
+    }
+}
+
+}  // namespace
+
+Bang::Bang() : stream(nullptr), callback(nullptr), user_data(nullptr),
+               serial_stream(nullptr), timeout_ms(1000) {}
+
+Bang::Bang(Stream& s) : Bang() {
+    bang_init(this, &s, nullptr, nullptr);
+}
+
+Bang::Bang(Stream& s, Stream& serial) : Bang() {
+    bang_init(this, &s, nullptr, nullptr);
+    serial_stream = &serial;
+}
+
+String Bang::exec(const String& command) {
+    return exec(command.c_str());
+}
+
+String Bang::exec(const char* command) {
+    if (!stream || !command) {
+        return String();
+    }
+
+    while (stream->available() > 0) {
+        stream->read();
+    }
+
+    if (!bang_has_prefix(command)) {
+        stream->print('!');
+    }
+    stream->println(command);
+
+    String response;
+    unsigned long const start_ms = millis();
+    unsigned long last_rx_ms = start_ms;
+
+    while (millis() - start_ms < timeout_ms) {
+        while (stream->available() > 0) {
+            response += static_cast<char>(stream->read());
+            last_rx_ms = millis();
+        }
+
+        if (response.length() > 0 && millis() - last_rx_ms > 25) {
+            break;
+        }
+    }
+
+    return response;
+}
+
+void Bang::serial(const String& text) {
+    serial(text.c_str());
+}
+
+void Bang::serial(const char* text) {
+    Stream* target = serial_stream ? serial_stream : stream;
+    bang_print_line(target, text);
+}
+
+void Bang::sync() {
+    if (!stream) {
+        return;
+    }
+
+    if (!serial_stream || serial_stream == stream) {
+        bang_update(this);
+        return;
+    }
+
+    while (serial_stream->available() > 0) {
+        stream->write(serial_stream->read());
+    }
+
+    while (stream->available() > 0) {
+        serial_stream->write(stream->read());
+    }
+}
+#endif
