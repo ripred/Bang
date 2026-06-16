@@ -17,10 +17,10 @@
 [![Arduino CI](https://github.com/ripred/Bang/workflows/Arduino%20CI/badge.svg)](https://github.com/marketplace/actions/arduino_ci)
 -->
 [![Arduino-lint](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino-lint.yml)
-![code size:](https://img.shields.io/github/languages/code-size/ripred/Bang)
-[![GitHub release](https://img.shields.io/github/release/ripred/Bang.svg?maxAge=3600)](https://github.com/ripred/Bang/releases)
-[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ripred/Bang/blob/master/LICENSE)
-[![Stars](https://img.shields.io/github/stars/ripred/Bang.svg?style=flat-square&colorB=4183c4)](https://github.com/ripred/Bang)
+![code size](https://flat.badgen.net/badge/code%20size/23.4%20KiB/blue)
+[![GitHub release](https://flat.badgen.net/github/release/ripred/Bang)](https://github.com/ripred/Bang/releases/latest)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/ripred/Bang/blob/main/LICENSE)
+[![Stars](https://flat.badgen.net/github/stars/ripred/Bang)](https://github.com/ripred/Bang/stargazers)
 
 # The Bang Arduino Library
 ## Arduino controlled host machine command line interface.
