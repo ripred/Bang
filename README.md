@@ -1,3 +1,8 @@
+[![Arduino CI](https://github.com/ripred/Bang/actions/workflows/arduino_test_runner.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/arduino_test_runner.yml)
+[![JSON check](https://github.com/ripred/Bang/actions/workflows/jsoncheck.yml/badge.svg)](https://github.com/ripred/Bang/actions/workflows/jsoncheck.yml)
+[![Arduino Library Manager](https://www.ardu-badge.com/badge/Bang.svg)](https://www.ardu-badge.com/Bang)
+[![Forks](https://flat.badgen.net/github/forks/ripred/Bang)](https://github.com/ripred/Bang/network/members)
+
 <!--
 <p align="center">
     <a href="https://github.com/ripred/Bang/stargazers">
